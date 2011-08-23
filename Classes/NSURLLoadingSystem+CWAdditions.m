@@ -182,7 +182,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
         self = [self initWithData:data 
                          encoding:encoding];
         if (self && enc) {
-        	*enc == encoding;
+        	*enc = encoding;
         }
     } else {
         [self release];
