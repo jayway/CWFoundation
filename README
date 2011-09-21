@@ -26,7 +26,9 @@ only describes a subset of the funcationality.
 * CWLog - Conditional logging replacing NSLog.
 * CWNetworkMonitor - An improved Reachability class.
 * CWOrderedDictionary - For the cases where the order of the obejcts matter.
-* CWXMLTranslator - Utility for transforming XML into domain objects.
+* CWTranslator - Utility for transforming an ordered input into domain objects.
+  * CWXMLTranslator - A concrete subclass that translates XML into domain objects.
+  * See README-Translator for more information.
 * NSError - Convinience additions for creating localized errors.
 * NSArray - Additions for inserting objects into sorted arrays.
 * NSDate - Additoins for working with ISO and reltive dates.

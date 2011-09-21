@@ -10,7 +10,7 @@
 #import "CWXMLTranslator.h"
 
 
-@interface RSSFeedTableViewController : UITableViewController <CWXMLTranslatorDelegate> {
+@interface RSSFeedTableViewController : UITableViewController <CWTranslatorDelegate> {
 @private
     NSArray* rssItems;
 }

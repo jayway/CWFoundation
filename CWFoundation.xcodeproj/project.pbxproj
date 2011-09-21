@@ -22,6 +22,12 @@
 		A61083CF136ECFA100D42782 /* CWOrderedDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A61083CA136ECFA100D42782 /* CWOrderedDictionaryTest.m */; };
 		A61083D0136ECFA100D42782 /* NSObjectAssociatedObjectsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A61083CC136ECFA100D42782 /* NSObjectAssociatedObjectsTest.m */; };
 		A61083D1136ECFA100D42782 /* NSStringCWPrefixAndSuffixTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A61083CE136ECFA100D42782 /* NSStringCWPrefixAndSuffixTests.m */; };
+		A61EDF0F142A470400A1DF8C /* CWTranslation.h in Headers */ = {isa = PBXBuildFile; fileRef = A61EDF0A142A470400A1DF8C /* CWTranslation.h */; };
+		A61EDF10142A470400A1DF8C /* CWTranslation.m in Sources */ = {isa = PBXBuildFile; fileRef = A61EDF0B142A470400A1DF8C /* CWTranslation.m */; };
+		A61EDF11142A470400A1DF8C /* CWTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = A61EDF0C142A470400A1DF8C /* CWTranslator.h */; };
+		A61EDF12142A470400A1DF8C /* CWTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = A61EDF0D142A470400A1DF8C /* CWTranslator.m */; };
+		A61EDF13142A470400A1DF8C /* CWTranslatorPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = A61EDF0E142A470400A1DF8C /* CWTranslatorPrivate.h */; };
+		A61EDF17142A489700A1DF8C /* CWTranslaterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A61EDF16142A489700A1DF8C /* CWTranslaterTests.m */; };
 		A6754E6F13EC32A40097D3E9 /* NSObject+CWInvocationProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = A6754E6D13EC32A40097D3E9 /* NSObject+CWInvocationProxy.h */; };
 		A6754E7013EC32A40097D3E9 /* NSObject+CWInvocationProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = A6754E6E13EC32A40097D3E9 /* NSObject+CWInvocationProxy.m */; };
 		A69185F913E1B289006F25AD /* NSCalendar+CWAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = A69185F713E1B289006F25AD /* NSCalendar+CWAdditions.h */; };
@@ -31,7 +37,7 @@
 		A6A971A41369B2F40065D9BE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A971A31369B2F40065D9BE /* UIKit.framework */; };
 		A6A971D31369B3ED0065D9BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A971CB1369B3ED0065D9BE /* main.m */; };
 		A6A971D41369B3ED0065D9BE /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6A971CC1369B3ED0065D9BE /* MainWindow.xib */; };
-		A6A971D51369B3ED0065D9BE /* RSSFeed.xmltranslation in Resources */ = {isa = PBXBuildFile; fileRef = A6A971CD1369B3ED0065D9BE /* RSSFeed.xmltranslation */; };
+		A6A971D51369B3ED0065D9BE /* RSSFeed.translation in Resources */ = {isa = PBXBuildFile; fileRef = A6A971CD1369B3ED0065D9BE /* RSSFeed.translation */; };
 		A6A971D61369B3ED0065D9BE /* RSSFeedTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A971CF1369B3ED0065D9BE /* RSSFeedTableViewController.m */; };
 		A6A971D71369B3ED0065D9BE /* SampleAppAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A971D11369B3ED0065D9BE /* SampleAppAppDelegate.m */; };
 		A6A971DB1369B4790065D9BE /* libCWFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC07E0554694100DB518D /* libCWFoundation.a */; };
@@ -66,11 +72,8 @@
 		A6ED943B13697EAE002DCEE4 /* NSURLLoadingSystem+CWAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6ED943713697EAE002DCEE4 /* NSURLLoadingSystem+CWAdditions.m */; };
 		A6ED943C13697EAE002DCEE4 /* CWFileURLFromDataTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = A6ED943813697EAE002DCEE4 /* CWFileURLFromDataTransformer.h */; };
 		A6ED943D13697EAE002DCEE4 /* CWFileURLFromDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6ED943913697EAE002DCEE4 /* CWFileURLFromDataTransformer.m */; };
-		A6ED94EC13698284002DCEE4 /* CWXMLTranslation.h in Headers */ = {isa = PBXBuildFile; fileRef = A6ED94E813698284002DCEE4 /* CWXMLTranslation.h */; };
-		A6ED94ED13698284002DCEE4 /* CWXMLTranslation.m in Sources */ = {isa = PBXBuildFile; fileRef = A6ED94E913698284002DCEE4 /* CWXMLTranslation.m */; };
 		A6ED94EE13698284002DCEE4 /* CWXMLTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = A6ED94EA13698284002DCEE4 /* CWXMLTranslator.h */; };
 		A6ED94EF13698284002DCEE4 /* CWXMLTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = A6ED94EB13698284002DCEE4 /* CWXMLTranslator.m */; };
-		A6ED94F8136982AF002DCEE4 /* CWXMLTranslatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6ED94F7136982AF002DCEE4 /* CWXMLTranslatorTests.m */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +120,13 @@
 		A61083CC136ECFA100D42782 /* NSObjectAssociatedObjectsTest.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = NSObjectAssociatedObjectsTest.m; path = "Test Classes/NSObjectAssociatedObjectsTest.m"; sourceTree = "<group>"; };
 		A61083CD136ECFA100D42782 /* NSStringCWPrefixAndSuffixTests.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = NSStringCWPrefixAndSuffixTests.h; path = "Test Classes/NSStringCWPrefixAndSuffixTests.h"; sourceTree = "<group>"; };
 		A61083CE136ECFA100D42782 /* NSStringCWPrefixAndSuffixTests.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = NSStringCWPrefixAndSuffixTests.m; path = "Test Classes/NSStringCWPrefixAndSuffixTests.m"; sourceTree = "<group>"; };
+		A61EDF0A142A470400A1DF8C /* CWTranslation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWTranslation.h; path = Classes/CWTranslation.h; sourceTree = "<group>"; };
+		A61EDF0B142A470400A1DF8C /* CWTranslation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWTranslation.m; path = Classes/CWTranslation.m; sourceTree = "<group>"; };
+		A61EDF0C142A470400A1DF8C /* CWTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWTranslator.h; path = Classes/CWTranslator.h; sourceTree = "<group>"; };
+		A61EDF0D142A470400A1DF8C /* CWTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWTranslator.m; path = Classes/CWTranslator.m; sourceTree = "<group>"; };
+		A61EDF0E142A470400A1DF8C /* CWTranslatorPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWTranslatorPrivate.h; path = Classes/CWTranslatorPrivate.h; sourceTree = "<group>"; };
+		A61EDF15142A489700A1DF8C /* CWTranslaterTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWTranslaterTests.h; path = "Test Classes/CWTranslaterTests.h"; sourceTree = "<group>"; };
+		A61EDF16142A489700A1DF8C /* CWTranslaterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWTranslaterTests.m; path = "Test Classes/CWTranslaterTests.m"; sourceTree = "<group>"; };
 		A6754E6D13EC32A40097D3E9 /* NSObject+CWInvocationProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+CWInvocationProxy.h"; path = "Classes/NSObject+CWInvocationProxy.h"; sourceTree = "<group>"; };
 		A6754E6E13EC32A40097D3E9 /* NSObject+CWInvocationProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+CWInvocationProxy.m"; path = "Classes/NSObject+CWInvocationProxy.m"; sourceTree = "<group>"; };
 		A69185F713E1B289006F25AD /* NSCalendar+CWAdditions.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = "NSCalendar+CWAdditions.h"; path = "Classes/NSCalendar+CWAdditions.h"; sourceTree = "<group>"; };
@@ -129,7 +139,7 @@
 		A6A971C41369B3C90065D9BE /* XMLTranslatorSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XMLTranslatorSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6A971CB1369B3ED0065D9BE /* main.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A6A971CC1369B3ED0065D9BE /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		A6A971CD1369B3ED0065D9BE /* RSSFeed.xmltranslation */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; path = RSSFeed.xmltranslation; sourceTree = "<group>"; };
+		A6A971CD1369B3ED0065D9BE /* RSSFeed.translation */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; path = RSSFeed.translation; sourceTree = "<group>"; };
 		A6A971CE1369B3ED0065D9BE /* RSSFeedTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; path = RSSFeedTableViewController.h; sourceTree = "<group>"; };
 		A6A971CF1369B3ED0065D9BE /* RSSFeedTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; path = RSSFeedTableViewController.m; sourceTree = "<group>"; };
 		A6A971D01369B3ED0065D9BE /* SampleAppAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; path = SampleAppAppDelegate.h; sourceTree = "<group>"; };
@@ -142,7 +152,7 @@
 		A6B254F4136BFD5100D5F57F /* NetworkMonitorSampleApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "NetworkMonitorSampleApp-Info.plist"; path = "Sample Classes/NetworkMonitor/NetworkMonitorSampleApp-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A6B254F5136BFD5100D5F57F /* SampleAppAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleAppAppDelegate.h; path = "Sample Classes/NetworkMonitor/SampleAppAppDelegate.h"; sourceTree = SOURCE_ROOT; };
 		A6B254F6136BFD5100D5F57F /* SampleAppAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleAppAppDelegate.m; path = "Sample Classes/NetworkMonitor/SampleAppAppDelegate.m"; sourceTree = SOURCE_ROOT; };
-		A6B5CF561382ACFF00D806A8 /* README-XMLTranslator */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "README-XMLTranslator"; sourceTree = "<group>"; };
+		A6B5CF561382ACFF00D806A8 /* README-Translator */ = {isa = PBXFileReference; fileEncoding = 4; path = "README-Translator"; sourceTree = "<group>"; };
 		A6ED906F1369473E002DCEE4 /* README */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		A6ED913213694ABB002DCEE4 /* CWLocalization.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = CWLocalization.h; path = Classes/CWLocalization.h; sourceTree = "<group>"; };
 		A6ED913313694ABB002DCEE4 /* CWLog.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = CWLog.h; path = Classes/CWLog.h; sourceTree = "<group>"; };
@@ -162,12 +172,8 @@
 		A6ED943713697EAE002DCEE4 /* NSURLLoadingSystem+CWAdditions.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = "NSURLLoadingSystem+CWAdditions.m"; path = "Classes/NSURLLoadingSystem+CWAdditions.m"; sourceTree = "<group>"; };
 		A6ED943813697EAE002DCEE4 /* CWFileURLFromDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = CWFileURLFromDataTransformer.h; path = Classes/CWFileURLFromDataTransformer.h; sourceTree = "<group>"; };
 		A6ED943913697EAE002DCEE4 /* CWFileURLFromDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = CWFileURLFromDataTransformer.m; path = Classes/CWFileURLFromDataTransformer.m; sourceTree = "<group>"; };
-		A6ED94E813698284002DCEE4 /* CWXMLTranslation.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = CWXMLTranslation.h; path = Classes/CWXMLTranslation.h; sourceTree = "<group>"; };
-		A6ED94E913698284002DCEE4 /* CWXMLTranslation.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = CWXMLTranslation.m; path = Classes/CWXMLTranslation.m; sourceTree = "<group>"; };
 		A6ED94EA13698284002DCEE4 /* CWXMLTranslator.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = CWXMLTranslator.h; path = Classes/CWXMLTranslator.h; sourceTree = "<group>"; };
 		A6ED94EB13698284002DCEE4 /* CWXMLTranslator.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = CWXMLTranslator.m; path = Classes/CWXMLTranslator.m; sourceTree = "<group>"; };
-		A6ED94F6136982AF002DCEE4 /* CWXMLTranslatorTests.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = CWXMLTranslatorTests.h; path = "Test Classes/CWXMLTranslatorTests.h"; sourceTree = "<group>"; };
-		A6ED94F7136982AF002DCEE4 /* CWXMLTranslatorTests.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; name = CWXMLTranslatorTests.m; path = "Test Classes/CWXMLTranslatorTests.m"; sourceTree = "<group>"; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libCWFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCWFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -241,7 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				A6ED906F1369473E002DCEE4 /* README */,
-				A6B5CF561382ACFF00D806A8 /* README-XMLTranslator */,
+				A6B5CF561382ACFF00D806A8 /* README-Translator */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				A63D5B021339E86A005D6725 /* Test Classes */,
 				A63D5B031339E874005D6725 /* Sample Classes */,
@@ -273,8 +279,11 @@
 				A6A971711369B20D0065D9BE /* CWNetworkMonitor.m */,
 				A61083AF136ECE2F00D42782 /* CWOrderedDictionary.h */,
 				A61083B0136ECE2F00D42782 /* CWOrderedDictionary.m */,
-				A6ED94E813698284002DCEE4 /* CWXMLTranslation.h */,
-				A6ED94E913698284002DCEE4 /* CWXMLTranslation.m */,
+				A61EDF0A142A470400A1DF8C /* CWTranslation.h */,
+				A61EDF0B142A470400A1DF8C /* CWTranslation.m */,
+				A61EDF0C142A470400A1DF8C /* CWTranslator.h */,
+				A61EDF0D142A470400A1DF8C /* CWTranslator.m */,
+				A61EDF0E142A470400A1DF8C /* CWTranslatorPrivate.h */,
 				A6ED94EA13698284002DCEE4 /* CWXMLTranslator.h */,
 				A6ED94EB13698284002DCEE4 /* CWXMLTranslator.m */,
 				A61083B1136ECE2F00D42782 /* NSArray+CWSortedInsert.h */,
@@ -310,8 +319,8 @@
 			children = (
 				A61083C9136ECFA100D42782 /* CWOrderedDictionaryTest.h */,
 				A61083CA136ECFA100D42782 /* CWOrderedDictionaryTest.m */,
-				A6ED94F6136982AF002DCEE4 /* CWXMLTranslatorTests.h */,
-				A6ED94F7136982AF002DCEE4 /* CWXMLTranslatorTests.m */,
+				A61EDF15142A489700A1DF8C /* CWTranslaterTests.h */,
+				A61EDF16142A489700A1DF8C /* CWTranslaterTests.m */,
 				A6ED914613694AC9002DCEE4 /* NSInvocationVariableArgumentsTest.h */,
 				A6ED914713694AC9002DCEE4 /* NSInvocationVariableArgumentsTest.m */,
 				A61083CB136ECFA100D42782 /* NSObjectAssociatedObjectsTest.h */,
@@ -353,7 +362,7 @@
 				A6A971CF1369B3ED0065D9BE /* RSSFeedTableViewController.m */,
 				A6A971D01369B3ED0065D9BE /* SampleAppAppDelegate.h */,
 				A6A971D11369B3ED0065D9BE /* SampleAppAppDelegate.m */,
-				A6A971CD1369B3ED0065D9BE /* RSSFeed.xmltranslation */,
+				A6A971CD1369B3ED0065D9BE /* RSSFeed.translation */,
 				A6A971CC1369B3ED0065D9BE /* MainWindow.xib */,
 				A6A971D21369B3ED0065D9BE /* XMLTranslatorSampleApp-Info.plist */,
 			);
@@ -385,7 +394,6 @@
 				A6ED914813694AC9002DCEE4 /* NSInvocationVariableArgumentsTest.h in Headers */,
 				A6ED943A13697EAE002DCEE4 /* NSURLLoadingSystem+CWAdditions.h in Headers */,
 				A6ED943C13697EAE002DCEE4 /* CWFileURLFromDataTransformer.h in Headers */,
-				A6ED94EC13698284002DCEE4 /* CWXMLTranslation.h in Headers */,
 				A6ED94EE13698284002DCEE4 /* CWXMLTranslator.h in Headers */,
 				A61083BB136ECE2F00D42782 /* CWOrderedDictionary.h in Headers */,
 				A61083BD136ECE2F00D42782 /* NSArray+CWSortedInsert.h in Headers */,
@@ -395,6 +403,9 @@
 				A61083C5136ECE2F00D42782 /* NSString+CWAdditions.h in Headers */,
 				A69185F913E1B289006F25AD /* NSCalendar+CWAdditions.h in Headers */,
 				A6754E6F13EC32A40097D3E9 /* NSObject+CWInvocationProxy.h in Headers */,
+				A61EDF0F142A470400A1DF8C /* CWTranslation.h in Headers */,
+				A61EDF11142A470400A1DF8C /* CWTranslator.h in Headers */,
+				A61EDF13142A470400A1DF8C /* CWTranslatorPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -534,7 +545,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6A971D41369B3ED0065D9BE /* MainWindow.xib in Resources */,
-				A6A971D51369B3ED0065D9BE /* RSSFeed.xmltranslation in Resources */,
+				A6A971D51369B3ED0065D9BE /* RSSFeed.translation in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,10 +607,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6ED915813694B29002DCEE4 /* NSInvocationVariableArgumentsTest.m in Sources */,
-				A6ED94F8136982AF002DCEE4 /* CWXMLTranslatorTests.m in Sources */,
 				A61083CF136ECFA100D42782 /* CWOrderedDictionaryTest.m in Sources */,
 				A61083D0136ECFA100D42782 /* NSObjectAssociatedObjectsTest.m in Sources */,
 				A61083D1136ECFA100D42782 /* NSStringCWPrefixAndSuffixTests.m in Sources */,
+				A61EDF17142A489700A1DF8C /* CWTranslaterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,7 +624,6 @@
 				A6ED914513694ABB002DCEE4 /* NSOperationQueue+CWReplaceOperation.m in Sources */,
 				A6ED943B13697EAE002DCEE4 /* NSURLLoadingSystem+CWAdditions.m in Sources */,
 				A6ED943D13697EAE002DCEE4 /* CWFileURLFromDataTransformer.m in Sources */,
-				A6ED94ED13698284002DCEE4 /* CWXMLTranslation.m in Sources */,
 				A6ED94EF13698284002DCEE4 /* CWXMLTranslator.m in Sources */,
 				A61083BC136ECE2F00D42782 /* CWOrderedDictionary.m in Sources */,
 				A61083BE136ECE2F00D42782 /* NSArray+CWSortedInsert.m in Sources */,
@@ -623,6 +633,8 @@
 				A61083C6136ECE2F00D42782 /* NSString+CWAdditions.m in Sources */,
 				A69185FA13E1B289006F25AD /* NSCalendar+CWAdditions.m in Sources */,
 				A6754E7013EC32A40097D3E9 /* NSObject+CWInvocationProxy.m in Sources */,
+				A61EDF10142A470400A1DF8C /* CWTranslation.m in Sources */,
+				A61EDF12142A470400A1DF8C /* CWTranslator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

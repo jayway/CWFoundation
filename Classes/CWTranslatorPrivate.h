@@ -1,5 +1,5 @@
 //
-//  CWFoundation.h
+//  CWTranslatorPrivate.h
 //  CWFoundation
 //  Created by Fredrik Olsson 
 //
@@ -27,23 +27,59 @@
 //  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
 //  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-
-#import "CWFileURLFromDataTransformer.h"
-#import "CWLocalization.h"
-#import "CWLog.h"
-#import "CWOrderedDictionary.h"
-#import "CWTranslation.h"
+#import <Foundation/Foundation.h>
 #import "CWTranslator.h"
-#import "CWXMLTranslator.h"
-#import "NSArray+CWSortedInsert.h"
-#import "NSCalendar+CWAdditions.h"
-#import "NSData+CWBase64Encoding.h"
-#import "NSDate+CWAdditions.h"
-#import "NSError+CWAdditions.h"
-#import "NSInvocation+CWVariableArguments.h"
-#import "NSObject+CWAssociatedObject.h"
-#import "NSObject+CWInvocationProxy.h"
-#import "NSOperationQueue+CWDefaultQueue.h"
-#import "NSOperationQueue+CWReplaceOperation.h"
-#import "NSString+CWAdditions.h"
-#import "NSURLLoadingSystem+CWAdditions.h"
+
+
+/*!
+ * @abstract Private helper class for CWTranslator.
+ */
+@interface CWTranslatorState : NSObject {
+@private
+}
+
+@property(nonatomic, copy) NSString* sourceName;
+@property(nonatomic, retain) CWTranslation* translation;
+@property(nonatomic, assign) NSUInteger nestingDepth;
+@property(nonatomic, retain) id object;
+@property(nonatomic, retain) NSDictionary* attributes;
+
+@end
+
+
+/*!
+ * @abstract Private interface needed for CWTranslation and CWTranslator to co-exist.
+ */
+@interface CWTranslation ()
+
+@property(nonatomic, readonly, retain) NSSet* sourceNames;
+
+@property(nonatomic, readwrite, retain) NSMutableSet* valueSourceNames;
+@property(nonatomic, readwrite, retain) NSMutableSet* attributeSourceNames;
+@property(nonatomic, readwrite, assign) CWTranslationAction action;
+@property(nonatomic, readwrite, copy) NSString* destinationKeyPath;
+@property(nonatomic, readwrite, assign) Class destinationClass;
+@property(nonatomic, readwrite, copy) NSString* context;
+@property(nonatomic, readwrite, retain) NSSet* subTranslations;
+
+-(CWTranslation*)subTranslationForSourceName:(NSString*)name type:(CWTranslationSourceType)type;
+
+-(BOOL)isAtomic;
+
+@end
+
+
+/*!
+ * @abstract Override points for concrete CWTranslator subclasses.
+ */
+@interface CWTranslator ()
+
+// Must be called by subclasses.
+-(void)beginTranslation;
+-(NSArray*)rootObjects;
+
+// Must be overridden by subclasses.
+-(void)startGroupingWithName:(NSString*)name attributes:(NSDictionary*)attributes;
+-(void)endGroupingWithName:(NSString*)name text:(NSString*)text;
+
+@end

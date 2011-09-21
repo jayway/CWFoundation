@@ -1,5 +1,5 @@
 //
-//  CWFoundation.h
+//  CWTranslaterTests.h
 //  CWFoundation
 //  Created by Fredrik Olsson 
 //
@@ -27,23 +27,31 @@
 //  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
 //  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-
-#import "CWFileURLFromDataTransformer.h"
-#import "CWLocalization.h"
-#import "CWLog.h"
-#import "CWOrderedDictionary.h"
-#import "CWTranslation.h"
-#import "CWTranslator.h"
+#import <SenTestingKit/SenTestingKit.h>
 #import "CWXMLTranslator.h"
-#import "NSArray+CWSortedInsert.h"
-#import "NSCalendar+CWAdditions.h"
-#import "NSData+CWBase64Encoding.h"
-#import "NSDate+CWAdditions.h"
-#import "NSError+CWAdditions.h"
-#import "NSInvocation+CWVariableArguments.h"
-#import "NSObject+CWAssociatedObject.h"
-#import "NSObject+CWInvocationProxy.h"
-#import "NSOperationQueue+CWDefaultQueue.h"
-#import "NSOperationQueue+CWReplaceOperation.h"
-#import "NSString+CWAdditions.h"
-#import "NSURLLoadingSystem+CWAdditions.h"
+
+@interface CWTranslaterTests : SenTestCase <CWTranslatorDelegate> {
+	int translateObjectCount;
+	int didTranslateObjectCount;
+	int translatePrimitiveObjectCount;
+    int didTranslateWithContextCount;
+}
+
+-(void)testTranslatorWithSingleTag;
+-(void)testTranslatorWithListOfTags;
+-(void)testTranslatorWithStackOfTags;
+
+-(void)testTranslatorDictionaryWithTags;
+-(void)testTranslatorDictionaryWithAttributes;
+
+-(void)testTranslatorSkipsCorrectTagNodes;
+
+-(void)testTranslatorSkipIntoTagAndCaptureAttribute;
+
+-(void)testTranslatorTranslatesURLTag;
+-(void)testTranslatorTranslatesURLAttribute;
+
+-(void)testTranslatorMultipleSourcesNames;
+-(void)testTranslatorWithContext;
+
+@end
