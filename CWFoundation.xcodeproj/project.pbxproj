@@ -52,7 +52,6 @@
 		A6B254F1136BFA9F00D5F57F /* libCWNetworkMonitor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6B254EE136BF9E700D5F57F /* libCWNetworkMonitor.a */; };
 		A6B254F7136BFD5100D5F57F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B254F2136BFD5100D5F57F /* main.m */; };
 		A6B254F8136BFD5100D5F57F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6B254F3136BFD5100D5F57F /* MainWindow.xib */; };
-		A6B254F9136BFD5100D5F57F /* NetworkMonitorSampleApp-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6B254F4136BFD5100D5F57F /* NetworkMonitorSampleApp-Info.plist */; };
 		A6B254FA136BFD5100D5F57F /* SampleAppAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B254F6136BFD5100D5F57F /* SampleAppAppDelegate.m */; };
 		A6ED913C13694ABB002DCEE4 /* CWLocalization.h in Headers */ = {isa = PBXBuildFile; fileRef = A6ED913213694ABB002DCEE4 /* CWLocalization.h */; };
 		A6ED913D13694ABB002DCEE4 /* CWLog.h in Headers */ = {isa = PBXBuildFile; fileRef = A6ED913313694ABB002DCEE4 /* CWLog.h */; };
@@ -507,7 +506,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "CWFoundation" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -539,7 +538,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6B254F8136BFD5100D5F57F /* MainWindow.xib in Resources */,
-				A6B254F9136BFD5100D5F57F /* NetworkMonitorSampleApp-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,7 +671,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = CWFoundation;
 			};
@@ -687,7 +685,7 @@
 				DSTROOT = /tmp/CWFoundation.dst;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = CWFoundation;
 			};
@@ -728,7 +726,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Sample Classes/NetworkMonitor/NetworkMonitorSampleApp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
@@ -752,7 +750,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Sample Classes/NetworkMonitor/NetworkMonitorSampleApp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
@@ -778,7 +776,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Sample Classes/XMLTranslator/XMLTranslatorSampleApp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
@@ -802,7 +800,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Sample Classes/XMLTranslator/XMLTranslatorSampleApp-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
@@ -829,7 +827,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = CWNetworkMonitor;
 				VERSION_INFO_BUILDER = CWNetworkMonitor;
@@ -844,7 +842,7 @@
 				DSTROOT = /tmp/CWFoundation.dst;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = CWNetworkMonitor;
 				VERSION_INFO_BUILDER = CWNetworkMonitor;
@@ -864,7 +862,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "UnitTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -893,7 +891,7 @@
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "UnitTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-all_load",
