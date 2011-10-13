@@ -79,7 +79,8 @@ NSString* const CWTranslationRootMarker = @"@root";
     	type = @"translation";
     }
     name = [name stringByDeletingPathExtension];
-	NSString* path = [[NSBundle bundleForClass:[self class]] pathForResource:name 
+  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+	NSString* path = [bundle pathForResource:name 
                                                      ofType:type];
     if (!path) {
         [NSException raise:NSInvalidArgumentException
@@ -303,7 +304,7 @@ NSString* const CWTranslationRootMarker = @"@root";
     translation.attributeSourceNames = [NSMutableSet setWithCapacity:1];
     do {
         BOOL isAttr = [self tryString:@"." fromScanner:scanner];
-        NSString* symbol = [self tryString:@"@root" fromScanner:scanner] ? CWTranslationRootMarker : [self takeSymbolFromScanner:scanner];
+        NSString* symbol = [self tryString:@"@root" fromScanner:scanner] ? CWTranslationRootMarker : [self takeXMLSymbolFromScanner:scanner];
         if (symbol) {
             if (isAttr) {
                 [translation.attributeSourceNames addObject:symbol];
