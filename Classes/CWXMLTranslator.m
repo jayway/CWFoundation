@@ -31,14 +31,16 @@
 #import "CWTranslation.h"
 #import "CWTranslatorPrivate.h"
 
+
+
 @implementation CWXMLTranslator
 
 #pragma mark --- Instance life cycle
 
 -(void)dealloc;
 {
-    [currentText release];
-    [super dealloc];
+  [currentText release];
+  [super dealloc];
 }
 
 
@@ -46,34 +48,34 @@
 
 -(NSArray*)translateWithXMLParser:(NSXMLParser*)parser error:(NSError**)error;
 {
-    [parser setDelegate:self];
-    [self beginTranslation];
-    if ([parser parse]) {
-        return [self rootObjects];
-    } else if (error) {
-        *error = [parser parserError];
-    }
-    NSLog(@"Unparsable data in %@ error: %@", parser, [parser parserError]);
-    return nil;
+  [parser setDelegate:self];
+  [self beginTranslation];
+  if ([parser parse]) {
+    return [self rootObjects];
+  } else if (error) {
+    *error = [parser parserError];
+  }
+  NSLog(@"Unparsable data in %@ error: %@", parser, [parser parserError]);
+  return nil;
 }
 
 -(NSArray*)translateContentsOfData:(NSData*)data error:(NSError**)error;
 {
-    NSXMLParser* parser = [[[NSXMLParser alloc] initWithData:data] autorelease];
-    if (parser) {
-    	return [self translateWithXMLParser:parser
-                                      error:error];
-    }
+  NSXMLParser* parser = [[[NSXMLParser alloc] initWithData:data] autorelease];
+  if (parser) {
+    return [self translateWithXMLParser:parser
+                                  error:error];
+  }
 	return nil;
 }
 
 -(NSArray*)translateContentsOfURL:(NSURL*)url error:(NSError**)error;
 {
-    NSXMLParser* parser = [[[NSXMLParser alloc] initWithContentsOfURL:url] autorelease];
-    if (parser) {
-    	return [self translateWithXMLParser:parser
-                                      error:error];
-    }
+  NSXMLParser* parser = [[[NSXMLParser alloc] initWithContentsOfURL:url] autorelease];
+  if (parser) {
+    return [self translateWithXMLParser:parser
+                                  error:error];
+  }
 	return nil;
 }
 
@@ -82,18 +84,20 @@
 
 -(void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
-    [self startGroupingWithName:elementName attributes:attributeDict];
-    [currentText release], currentText = [[NSMutableString alloc] initWithCapacity:32];
+  [self startGroupingWithName:elementName attributes:attributeDict];
+  [currentText release], currentText = [[NSMutableString alloc] initWithCapacity:32];
 }
 
 -(void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
 {
-    [currentText appendString:string];
+  [currentText appendString:string];
 }
 
 -(void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName;
 {
-    [self endGroupingWithName:elementName text:currentText];
+  NSString *endingText = [currentText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  [self endGroupingWithName:elementName text:endingText];
 }
+
 
 @end
