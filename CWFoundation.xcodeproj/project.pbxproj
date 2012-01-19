@@ -832,6 +832,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = CWNetworkMonitor;
+				SKIP_INSTALL = YES;
 				VERSION_INFO_BUILDER = CWNetworkMonitor;
 			};
 			name = Debug;
@@ -847,6 +848,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/lib;
 				PRODUCT_NAME = CWNetworkMonitor;
+				SKIP_INSTALL = YES;
 				VERSION_INFO_BUILDER = CWNetworkMonitor;
 			};
 			name = Release;
