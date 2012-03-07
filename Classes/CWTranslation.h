@@ -66,6 +66,24 @@ extern NSString* const CWTranslationRootMarker;
     NSMutableSet* _subTranslations;
 }
 
+/*! @abstract All valid source names. */
+@property(nonatomic, readonly, retain) NSSet* sourceNames;
+
+/*! @abstract The translation action to perform. */
+@property(nonatomic, readonly, assign) CWTranslationAction action;
+
+/*! @abstract The destination key path. */
+@property(nonatomic, readonly, copy) NSString* destinationKeyPath;
+
+/*! @abstract The destination class. */
+@property(nonatomic, readonly, assign) Class destinationClass;
+
+/*! @abstract A NSValueTransformer instance to use, or nil. */
+@property(nonatomic, readonly, copy) NSValueTransformer* valueTransformer;
+
+/*! @abstract A translation context, or nil. */
+@property(nonatomic, readonly, copy) NSString* context;
+
 /*!
  * @abstract The bundle where translation files are stored.
  *

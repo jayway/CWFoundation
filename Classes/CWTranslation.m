@@ -79,7 +79,7 @@ NSString* const CWTranslationRootMarker = @"@root";
         bundle = [NSBundle mainBundle];
     }
 	NSString* path = [bundle pathForResource:name 
-                                      ofType:type];
+                                                     ofType:type];
     if (!path) {
         [NSException raise:NSInvalidArgumentException
                     format:@"CWXMLTranslation could not find translation file %@", name];
@@ -377,7 +377,7 @@ NSString* const CWTranslationRootMarker = @"@root";
             [_nameStack removeLastObject];
         } else {
             NSString* path = [[NSBundle bundleForClass:[self class]] pathForResource:[name stringByDeletingPathExtension]
-                                                                              ofType:[name pathExtension]];
+                                                             ofType:[name pathExtension]];
             result = [NSDictionary dictionaryWithContentsOfFile:path];
 			NSLog(@"Translation path: %@",path);
         }
@@ -408,6 +408,16 @@ NSString* const CWTranslationRootMarker = @"@root";
 @synthesize transformerName = _transformerName;
 @synthesize context = _context;
 @synthesize subTranslations = _subTranslations;
+
+- (NSValueTransformer *)valueTransformer;
+{
+    NSString *name = self.transformerName;
+    if (name) {
+        return [NSValueTransformer valueTransformerForName:self.transformerName];
+    } else {
+        return nil;
+    }
+}
 
 static NSBundle *translationBundle = nil;
 

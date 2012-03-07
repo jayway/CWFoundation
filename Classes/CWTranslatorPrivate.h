@@ -33,27 +33,23 @@
 
 
 /*!
- * @abstract Private helper class for CWTranslator.
+ * @abstract Private interface needed for CWTranslator to work.
  */
-@interface CWTranslatorState : NSObject {
-@private
-}
+@interface CWTranslatorState  ()
 
-@property(nonatomic, copy) NSString* sourceName;
-@property(nonatomic, retain) CWTranslation* translation;
-@property(nonatomic, assign) NSUInteger nestingDepth;
-@property(nonatomic, retain) id object;
-@property(nonatomic, retain) NSDictionary* attributes;
+@property(nonatomic, readwrite, copy) NSString* sourceName;
+@property(nonatomic, readwrite, retain) NSString* sourceText;
+@property(nonatomic, readwrite, retain) CWTranslation* translation;
+@property(nonatomic, readwrite, assign) NSUInteger nestingDepth;
+@property(nonatomic, readwrite, retain) id object;
+@property(nonatomic, readwrite, retain) NSDictionary* attributes;
 
 @end
-
 
 /*!
  * @abstract Private interface needed for CWTranslation and CWTranslator to co-exist.
  */
 @interface CWTranslation ()
-
-@property(nonatomic, readonly, retain) NSSet* sourceNames;
 
 @property(nonatomic, readwrite, retain) NSMutableSet* valueSourceNames;
 @property(nonatomic, readwrite, retain) NSMutableSet* attributeSourceNames;
