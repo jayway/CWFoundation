@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -46,8 +47,8 @@
 	CWTranslation* translation = nil;
     STAssertNoThrow(translation = [CWTranslation translationWithDSLString:dsl], @"legal DSL");
 	STAssertNotNil(translation, @"translation should not be nil");
-    CWXMLTranslator* translator = [[[CWXMLTranslator alloc] initWithTranslation:translation
-                                                                       delegate:nil] autorelease];
+    CWXMLTranslator* translator = [[CWXMLTranslator alloc] initWithTranslation:translation
+                                                                       delegate:nil];
     STAssertNotNil(translator, @"translator should not be nil");
     NSLog(@"translation: %@", translation);
     return translator;

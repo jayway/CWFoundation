@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -41,10 +42,11 @@
  */
 @interface CWTranslator : NSObject {
 @private
-    id<CWTranslatorDelegate> _delegate;
+    __weak id<CWTranslatorDelegate> _delegate;
     CWTranslation* rootTranslation;
 	NSMutableArray* stateStack;
 	NSMutableArray* rootObjects;
+    NSError* _error;
     struct {
     	unsigned int objectInstanceOfClass:1;
     	unsigned int didTranslateObject:1;
@@ -56,7 +58,7 @@
  * @abstract The translation delegate.
  * @discussion The delegate methods are always called on the same thread that the translation was started from.
  */
-@property(nonatomic, assign) id<CWTranslatorDelegate> delegate;
+@property(nonatomic, weak) id<CWTranslatorDelegate> delegate;
 
 /*!
  * @abstract The default NSDateFormatter
@@ -64,7 +66,6 @@
  */
 + (NSDateFormatter*) defaultDateFormatter;
 + (void) setDefaultDateFormatter:(NSDateFormatter *)formatter;
-
 
 /*!
  * @abstract Convinience method for translating XML with a translation and delagate.
@@ -125,7 +126,7 @@
  * @discussion Called before assigning to the target. Delegate may replace the object, or return nil if the object
  *             should not be set to it's parent ot be added to the root object array.
  */
--(id)translator:(CWTranslator*)translator didTranslateObject:(id)anObject fromSourceName:(NSString*)name toKeyPath:(NSString*)key ontoObject:(id)parentObject context:(NSString*)context;
+-(id)translator:(CWTranslator*)translator didTranslateObject:(id)anObject fromSourceName:(NSString*)name attributes:(NSDictionary*)attributes toKeyPath:(NSString*)key ontoObject:(id)parentObject context:(NSString*)context;
 
 /*!
  * @abstract Implement custom instansiation of a value object of a given class.

@@ -50,6 +50,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -136,8 +137,11 @@ static CWNetworkMonitor* _defaultMonitor = nil;
 	zeroAddress.sin_len = sizeof(zeroAddress);
 	zeroAddress.sin_family = AF_INET;
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincompatible-pointer-types"
 	CWNetworkMonitor* monitor = [self monitorWithAddress:&zeroAddress];
-    	
+#pragma clang diagnostic pop
+    
 	return monitor;
 }
 
@@ -149,7 +153,10 @@ static CWNetworkMonitor* _defaultMonitor = nil;
 	localWifiAddress.sin_family = AF_INET;
 	localWifiAddress.sin_addr.s_addr = htonl(IN_LINKLOCALNETNUM);
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincompatible-pointer-types"
 	CWNetworkMonitor* monitor = [self monitorWithAddress:&localWifiAddress];
+#pragma clang diagnostic pop
     monitor->_isLocalWiFi = YES;
 
 	return monitor;

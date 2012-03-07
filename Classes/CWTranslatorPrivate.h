@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -59,6 +60,7 @@
 @property(nonatomic, readwrite, assign) CWTranslationAction action;
 @property(nonatomic, readwrite, copy) NSString* destinationKeyPath;
 @property(nonatomic, readwrite, assign) Class destinationClass;
+@property(nonatomic, readwrite, copy) NSString* transformerName;
 @property(nonatomic, readwrite, copy) NSString* context;
 @property(nonatomic, readwrite, retain) NSSet* subTranslations;
 
@@ -76,7 +78,9 @@
 
 // Must be called by subclasses.
 -(void)beginTranslation;
--(NSArray*)rootObjects;
+-(NSArray*)rootObjectsWithError:(NSError**)error;
+
+-(void)setError:(NSError*)error;
 
 // Must be overridden by subclasses.
 -(void)startGroupingWithName:(NSString*)name attributes:(NSDictionary*)attributes;

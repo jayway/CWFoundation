@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -60,9 +61,22 @@ extern NSString* const CWTranslationRootMarker;
     CWTranslationAction _action;
     NSString* _destinationKey;
     Class _destinationClass;
+    NSString* _transformerName;
     NSString* _context;
     NSMutableSet* _subTranslations;
 }
+
+/*!
+ * @abstract The bundle where translation files are stored.
+ *
+ * @discussion Default is nil that is treated as the main bundle.
+ */
++ (NSBundle*)translationBundle;
+
+/*!
+ * @abstract Set the bundle where translation files are stored.
+ */
++ (void)setTranslationBundle:(NSBundle*)bundle;
 
 /*!
  * @abstract Deserialize a translation definition for a resource name.

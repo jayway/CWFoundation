@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -224,7 +225,7 @@
 
 +(NSDate*)relativeDateWithTimeIntervalSinceNow:(NSTimeInterval)timeInterval;
 {
-    return [[[CWRelativeDate alloc] initWithTimeIntervalSinceNow:timeInterval] autorelease];
+    return [[CWRelativeDate alloc] initWithTimeIntervalSinceNow:timeInterval];
 }
 
 -(NSString*)localizedShortString;
