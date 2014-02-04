@@ -1,9 +1,9 @@
 //
-//  NSObjectAssociatedObjectsTest.h
+//  NSValueTransformer+CWAdditions.h
 //  CWFoundation
 //  Created by Fredrik Olsson 
 //
-//  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -28,17 +28,19 @@
 //  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <Foundation/Foundation.h>
 
-#define CW_FORCE_LEGACY_ASSOCIATED_OBJECTS 1
 
-@interface NSObjectAssociatedObjectsTest : SenTestCase {
-    id object;
-    id associatedObject;
-}
+typedef id(^CWValueTranformerBlock)(id value);
 
--(void)testAssociatedObjectsAssignPolicy;
--(void)testAssociatedObjectsCopyPolicy;
--(void)testAssociatedObjectsRetainPolicy;
+@interface NSValueTransformer (CWAdditions)
+
+/*!
+ * @abstract Return a value transfrmer for a given value class using a block.
+ */
++ (NSValueTransformer *)valueTransformerWithValueClass:(Class)aClass block:(CWValueTranformerBlock)block;
+
+
++ (NSValueTransformer *)valueTransformerWithValueClass:(Class)aClass dictionary:(NSDictionary *)dictionary;
 
 @end

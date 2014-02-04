@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -64,12 +65,6 @@ NSString* const CWTranslationRootMarker = @"@root";
     return self;
 }
 
--(void)dealloc;
-{
-	[_nameStack release];
-    [super dealloc];
-}
-
 #pragma mark --- Private helpers
 
 -(NSScanner*)scannerWithTranslationNamed:(NSString*)name;
@@ -79,7 +74,10 @@ NSString* const CWTranslationRootMarker = @"@root";
     	type = @"translation";
     }
     name = [name stringByDeletingPathExtension];
-  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSBundle *bundle = [CWTranslation translationBundle];
+    if (!bundle) {
+        bundle = [NSBundle mainBundle];
+    }
 	NSString* path = [bundle pathForResource:name 
                                                      ofType:type];
     if (!path) {
@@ -186,11 +184,23 @@ NSString* const CWTranslationRootMarker = @"@root";
         translation.destinationClass = destClass;
         return YES;
     }
+    [NSException raise:NSInvalidArgumentException
+                format:@"CWTranslation expected existing class %@ at %@", type, [self stringWithLocationInScanner:scanner]];
+    return NO;
+}
+
+- (BOOL)parseTypeTransformerFromScanner:(NSScanner*)scanner intoTranslation:(CWTranslation*)translation;
+{
+    NSString* transformerName = [self takeSymbolFromScanner:scanner];
+    if (transformerName) {
+        translation.transformerName = transformerName;
+        return [self takeString:@")" fromScanner:scanner];
+    }
     return NO;
 }
 
 /*
- * type 	::= SYMBOL								# Type is a known Objective-C class (NSNumber, NSDate, NSURL)
+ * type 	::= SYMBOL	["(" SYMBOL ")"]			# Type is a known Objective-C class (NSNumber, NSDate, NSURL)
  *				SYMBOL translation |				# Type is an Objective-C class with  inline translation definition
  *		 		"@" SYMBOL							# Type is an Objective-C class with translation defiition in external class
  */
@@ -205,6 +215,8 @@ NSString* const CWTranslationRootMarker = @"@root";
         if ([self tryString:@"{" fromScanner:scanner]) {
             [scanner setScanLocation:[scanner scanLocation] - 1];
             subTranslation = [self parseTranslationFromScanner:scanner];
+        } else if ([self tryString:@"(" fromScanner:scanner]) {
+            return [self parseTypeTransformerFromScanner:scanner intoTranslation:translation];
         } else {
         	return YES;
         }
@@ -328,7 +340,7 @@ NSString* const CWTranslationRootMarker = @"@root";
  */
 -(CWTranslation*)parseTranslationFromScanner:(NSScanner*)scanner;
 {
-    CWTranslation* translation = [[[CWTranslation alloc] init] autorelease];
+    CWTranslation* translation = [[CWTranslation alloc] init];
     if ([self tryString:@"{" fromScanner:scanner]) {
         translation.subTranslations = [NSMutableSet setWithCapacity:8];
 		while (![self tryString:@"}" fromScanner:scanner]) {
@@ -393,31 +405,45 @@ NSString* const CWTranslationRootMarker = @"@root";
 @synthesize action = _action;
 @synthesize destinationKeyPath = _destinationKey;
 @synthesize destinationClass = _destinationClass;
+@synthesize transformerName = _transformerName;
 @synthesize context = _context;
 @synthesize subTranslations = _subTranslations;
 
+- (NSValueTransformer *)valueTransformer;
+{
+    NSString *name = self.transformerName;
+    if (name) {
+        return [NSValueTransformer valueTransformerForName:self.transformerName];
+    } else {
+        return nil;
+    }
+}
+
+static NSBundle *translationBundle = nil;
+
++ (NSBundle*)translationBundle;
+{
+    return translationBundle;
+}
+
++ (void)setTranslationBundle:(NSBundle*)bundle;
+{
+    translationBundle = bundle;
+}
+
+
 +(CWTranslation*)translationNamed:(NSString*)name;
 {
-    CWTranslationParser* temp = [[[CWTranslationParser alloc] init] autorelease];
+    CWTranslationParser* temp = [[CWTranslationParser alloc] init];
     return [temp translationNamed:name];
 }
 
 +(CWTranslation*)translationWithDSLString:(NSString*)dslString;
 {
-    CWTranslationParser* temp = [[[CWTranslationParser alloc] init] autorelease];
+    CWTranslationParser* temp = [[CWTranslationParser alloc] init];
 	NSScanner* scanner = [NSScanner scannerWithString:dslString];
     [scanner setCharactersToBeSkipped:nil];
     return [temp parseTranslationFromScanner:scanner];
-}
-
--(void)dealloc;
-{
-    [_valueSourceNames release];
-    [_attributeSourceNames release];
-    [_destinationKey release];
-    [_context release];
-    [_subTranslations release];
-    [super dealloc];
 }
 
 -(NSString*)description;

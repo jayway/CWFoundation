@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -112,27 +113,27 @@ typedef enum {
 
 +(id)backgroundProxyForTarget:(id)target;
 {
-    CWInvocationProxy* proxy = [[[self alloc] init] autorelease];
-    proxy->_target = [target retain];
+    CWInvocationProxy* proxy = [[self alloc] init];
+    proxy->_target = target;
     proxy->_type = CWInvocationProxyTypeBackgound;
     return proxy;
 }
 
 +(id)threadProxyForTarget:(id)target onThread:(NSThread*)thread;
 {
-    CWInvocationProxy* proxy = [[[self alloc] init] autorelease];
-    proxy->_target = [target retain];
+    CWInvocationProxy* proxy = [[self alloc] init];
+    proxy->_target = target;
     proxy->_type = CWInvocationProxyTypeThread;
-    proxy->_thread = [thread retain];
+    proxy->_thread = thread;
     return proxy;
 }
 
 +(id)queueProxyForTarget:(id)target onQueue:(NSOperationQueue*)queue;
 {
-    CWInvocationProxy* proxy = [[[self alloc] init] autorelease];
-    proxy->_target = [target retain];
+    CWInvocationProxy* proxy = [[self alloc] init];
+    proxy->_target = target;
     proxy->_type = CWInvocationProxyTypeQueue;
-    proxy->_queue = [queue retain];
+    proxy->_queue = queue;
     return proxy;
 }
 
@@ -145,13 +146,6 @@ typedef enum {
     return self;
 }
 
--(void)dealloc;
-{
-    [_target release];
-    [_thread release];
-    [_queue release];
-    [super dealloc];
-}
 
 -(BOOL)respondsToSelector:(SEL)aSelector;
 {

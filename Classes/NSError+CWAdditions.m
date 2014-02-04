@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -47,7 +48,7 @@ NSString* const CWApplicationErrorDomain = @"CWApplicationErrorDomain";
 
 +(id)errorWithError:(NSError*)error;
 {
-	return [[[self alloc] initWithError:error] autorelease];
+	return [[self alloc] initWithError:error];
 }
 
 +(id)errorWithDomain:(NSString *)domainOrNil code:(NSInteger)code 
@@ -91,14 +92,18 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 	return [[self userInfo] objectForKey:NSUnderlyingErrorKey];    
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
 -(id)copyWithZone:(NSZone *)zone;
 {
     if ([self isKindOfClass:[NSMutableError class]]) {
 		return [[NSError allocWithZone:zone] initWithError:self];
     } else {
-    	return [self retain];
+    	return self;
     }
 }
+#pragma clang diagnostic pop
+
 
 - (id)mutableCopyWithZone:(NSZone *)zone;
 {
@@ -123,14 +128,9 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 
 + (id)errorWithDomain:(NSString *)domain code:(NSInteger)code userInfo:(NSDictionary *)dict;
 {
-	return [[[self alloc] initWithDomain:domain code:code userInfo:dict] autorelease];
+	return [[self alloc] initWithDomain:domain code:code userInfo:dict];
 }
 
--(void)dealloc;
-{
-	[_mutableUserInfo release];
-    [super dealloc];
-}
 
 -(NSDictionary*)userInfo;
 {

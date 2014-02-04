@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -41,10 +42,11 @@
  */
 @interface CWTranslator : NSObject {
 @private
-    id<CWTranslatorDelegate> _delegate;
+    __weak id<CWTranslatorDelegate> _delegate;
     CWTranslation* rootTranslation;
 	NSMutableArray* stateStack;
 	NSMutableArray* rootObjects;
+    NSError* _error;
     struct {
     	unsigned int objectInstanceOfClass:1;
     	unsigned int didTranslateObject:1;
@@ -56,7 +58,7 @@
  * @abstract The translation delegate.
  * @discussion The delegate methods are always called on the same thread that the translation was started from.
  */
-@property(nonatomic, assign) id<CWTranslatorDelegate> delegate;
+@property(nonatomic, weak) id<CWTranslatorDelegate> delegate;
 
 /*!
  * @abstract The default NSDateFormatter
@@ -64,7 +66,6 @@
  */
 + (NSDateFormatter*) defaultDateFormatter;
 + (void) setDefaultDateFormatter:(NSDateFormatter *)formatter;
-
 
 /*!
  * @abstract Convinience method for translating XML with a translation and delagate.
@@ -97,6 +98,21 @@
 
 
 /*!
+ * @abstract A translator state, used by delegate callbacks.
+ */
+@interface CWTranslatorState : NSObject {
+@private
+}
+
+@property(nonatomic, readonly, copy) NSString* sourceName;
+@property(nonatomic, readonly, retain) NSString* sourceText;
+@property(nonatomic, readonly, retain) CWTranslation* translation;
+@property(nonatomic, readonly, retain) NSDictionary* attributes;
+
+@end
+
+
+/*!
  * @abstract Delegate for handling he result of a XML transltion.
  */
 @protocol CWTranslatorDelegate <NSObject>
@@ -110,14 +126,11 @@
  *             Otherwise return nil, to let the translator instantiate using [[aClass alloc] init].
  *
  * @param translator the XML translator
- * @param aClass the proposed class to instantiate.
- * @param name the XML element name.
- * @param attributes the XML attributes for the XML element.
- * @param key the key to later set the result to, or nil if a root object.
+ * @param state A state object with source name, class, and other information.
  * @param skip an out parameter, set to YES if this translation should be skipped for any reason.
  * @result an object instantiated usingt he arguments, or nil if a default object should be instantiated.
  */
--(id)translator:(CWTranslator*)translator objectInstanceOfClass:(Class)aClass fromSourceName:(NSString*)name attributes:(NSDictionary*)attributes toKeyPath:(NSString*)key context:(NSString*)context shouldSkip:(BOOL*)skip;
+-(id)translator:(CWTranslator*)translator objectInstanceForTranslatorState:(CWTranslatorState *)state shouldSkip:(BOOL*)skip;
 
 /*!
  * @abstract Translator did translate an obejct for a specified key.
@@ -125,7 +138,7 @@
  * @discussion Called before assigning to the target. Delegate may replace the object, or return nil if the object
  *             should not be set to it's parent ot be added to the root object array.
  */
--(id)translator:(CWTranslator*)translator didTranslateObject:(id)anObject fromSourceName:(NSString*)name toKeyPath:(NSString*)key ontoObject:(id)parentObject context:(NSString*)context;
+-(id)translator:(CWTranslator*)translator didTranslateObject:(id)anObject fromTranslatorState:(CWTranslatorState *)state ontoObject:(id)parentObject;
 
 /*!
  * @abstract Implement custom instansiation of a value object of a given class.
@@ -134,14 +147,11 @@
  *             Otherwise return nil, to let the translator instantiate using [[aClass alloc] init].
  *
  * @param translator the XML translator
- * @param aClass the proposed class to instantiate.
- * @param name the XML element or attribute name.
- * @param attributes the XML attributes for the XML element, or nil if instantiating from an attribute.
- * @param key the key to later set the result to, or nil if a root object.
+ * @param state A state object with source name, class, and other information.
  * @param skip an out parameter, set to YES if this translation should be skipped for any reason.
  * @result an object instantiated usingt he arguments, or nil if a default object should be instantiated.
  */
--(id)translator:(CWTranslator*)translator atomicObjectInstanceOfClass:(Class)aClass withString:(NSString*)aString fromSourceName:(NSString*)name attributes:(NSDictionary*)attributes toKeyPath:(NSString*)key context:(NSString*)context shouldSkip:(BOOL*)skip;
+-(id)translator:(CWTranslator*)translator atomicObjectInstanceFromTranslatorState:(CWTranslatorState *)state shouldSkip:(BOOL*)skip;
 
 
 @end

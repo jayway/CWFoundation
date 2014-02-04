@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -66,7 +67,6 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
 -(void)setDefaultHTTPHeaderFields:(NSDictionary*)fields;
 {
     @synchronized (self) {
-        [defaultHTTPHeaderFields release];
         defaultHTTPHeaderFields = [fields copy];
     }
 }
@@ -82,7 +82,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
     [fields enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 		[request setValue:obj forHTTPHeaderField:key];
     }];
-    return [[request copy] autorelease];
+    return [request copy];
 }
 
 @end
@@ -100,10 +100,10 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
 
 +(id)dataWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields options:(NSDataReadingOptions)mask error:(NSError **)error;
 {
-	return [[[self alloc] initWithContentsOfURL:url 
+	return [[self alloc] initWithContentsOfURL:url 
                                HTTPHeaderFields:fields 
                                         options:0 
-                                          error:error] autorelease];
+                                          error:error];
 }
 
 -(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
@@ -123,7 +123,6 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
     if (data) {
 	    self = [self initWithData:data];
     } else {
-        [self release];
         self = nil;
     }
     return self;
@@ -136,18 +135,18 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
 
 +(id)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
 {
-	return [[[self alloc] initWithContentsOfURL:url 
+	return [[self alloc] initWithContentsOfURL:url 
                                HTTPHeaderFields:fields 
                                        encoding:enc 
-                                          error:error] autorelease];
+                                          error:error];
 }
 
 +(id)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields usedEncoding:(NSStringEncoding*)enc error:(NSError **)error;
 {
-	return [[[self alloc] initWithContentsOfURL:url
+	return [[self alloc] initWithContentsOfURL:url
                                HTTPHeaderFields:fields
                                    usedEncoding:enc
-                                          error:error] autorelease];
+                                          error:error];
 }
 
 -(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
@@ -160,7 +159,6 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
         self = [self initWithData:data 
                          encoding:enc];
     } else {
-        [self release];
         self = nil;
     }
     return self;
@@ -174,7 +172,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
                                          returningResponse:&response 
                                                      error:error];
     if (data) {
-        CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)[response textEncodingName]);
+        CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((__bridge CFStringRef)[response textEncodingName]);
         if (cfEncoding == kCFStringEncodingInvalidId) {
         	cfEncoding = kCFStringEncodingUTF8;
         }
@@ -185,7 +183,6 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
         	*enc = encoding;
         }
     } else {
-        [self release];
         self = nil;
     }
     return self;

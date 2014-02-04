@@ -60,9 +60,9 @@
 
 #pragma mark --- CWXMLTranslatorDelegate conformance
 
--(id)translator:(CWTranslator*)translator didTranslateObject:(id)anObject fromSourceName:(NSString*)name toKeyPath:(NSString*)key ontoObject:(id)parentObject context:(NSString*)context;
+- (id)translator:(CWTranslator *)translator didTranslateObject:(id)anObject fromTranslatorState:(CWTranslatorState *)state ontoObject:(id)parentObject;
 {
-	if (key == CWTranslationRootMarker && [name isEqualToString:@"title"]) {
+	if (state.translation.destinationKeyPath == CWTranslationRootMarker && [state.sourceName isEqualToString:@"title"]) {
         // If it is the feeds title then set the navigation title but skip adding the object.
         [[self.navigationItem mainThreadProxy] setTitle:anObject];
     	return nil;

@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -70,7 +71,7 @@ static IMP cw_ascendingImp = NULL;
 
 static NSComparisonResult cw_DescriptorCompare(id a, id b, void* descriptors) {
 	NSComparisonResult result = NSOrderedSame;
-  for (NSSortDescriptor* sortDescriptor in (NSArray*)descriptors) {
+  for (NSSortDescriptor* sortDescriptor in (__bridge NSArray*)descriptors) {
 		result = (NSComparisonResult)cw_compareObjectToObjectImp(sortDescriptor, @selector(compareObject:toObject:), a, b);
     if (result != NSOrderedSame) {
       break;
@@ -81,7 +82,7 @@ static NSComparisonResult cw_DescriptorCompare(id a, id b, void* descriptors) {
 
 -(NSUInteger)indexForInsertingObject:(id)anObject sortedUsingDescriptors:(NSArray*)descriptors;
 {
-	return [self indexForInsertingObject:anObject sortedUsingfunction:&cw_DescriptorCompare context:descriptors];
+	return [self indexForInsertingObject:anObject sortedUsingfunction:&cw_DescriptorCompare context:(__bridge void *)descriptors];
 }
 
 @end

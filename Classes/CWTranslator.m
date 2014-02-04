@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -32,16 +33,7 @@
 
 @implementation CWTranslatorState
 
-@synthesize sourceName, translation, nestingDepth, object, attributes;
-
--(void)dealloc;
-{
-    self.sourceName = nil;
-    self.translation = nil;
-    self.object = nil;
-    self.attributes = nil;
-    [super dealloc];
-}
+@synthesize sourceName, translation, nestingDepth, object, sourceText, attributes;
 
 @end
 
@@ -56,9 +48,9 @@
 {
 	if (_delegate != delegate) {
     	_delegate = delegate;
-    	_delegateFlags.objectInstanceOfClass = [delegate respondsToSelector:@selector(translator:objectInstanceOfClass:fromSourceName:attributes:toKeyPath:context:shouldSkip:)];
-    	_delegateFlags.didTranslateObject = [delegate respondsToSelector:@selector(translator:didTranslateObject:fromSourceName:toKeyPath:ontoObject:context:)];
-    	_delegateFlags.atomicObjectInstanceOfClass = [delegate respondsToSelector:@selector(translator:atomicObjectInstanceOfClass:withString:fromSourceName:attributes:toKeyPath:context:shouldSkip:)];
+    	_delegateFlags.objectInstanceOfClass = [delegate respondsToSelector:@selector(translator:objectInstanceForTranslatorState:shouldSkip:)];
+    	_delegateFlags.didTranslateObject = [delegate respondsToSelector:@selector(translator:didTranslateObject:fromTranslatorState:ontoObject:)];
+    	_delegateFlags.atomicObjectInstanceOfClass = [delegate respondsToSelector:@selector(translator:atomicObjectInstanceFromTranslatorState:shouldSkip:)];
     }
 }
 
@@ -75,25 +67,20 @@ static NSDateFormatter* _defaultDateFormatter = nil;
 
 + (void) setDefaultDateFormatter:(NSDateFormatter *)formatter;
 {
-	if (formatter != _defaultDateFormatter) {
-		[_defaultDateFormatter release];
-		_defaultDateFormatter = [formatter retain];
-	}
+    _defaultDateFormatter = formatter;
 }
-
-
 
 +(NSArray*)translateContentsOfData:(NSData*)data withTranslationNamed:(NSString*)translationName delegate:(id<CWTranslatorDelegate>)delegate error:(NSError**)error;
 { 
     CWTranslation* translation = [CWTranslation translationNamed:translationName];
-    CWTranslator* translator = [[[self alloc] initWithTranslation:translation delegate:delegate] autorelease];
+    CWTranslator* translator = [[self alloc] initWithTranslation:translation delegate:delegate];
     return [translator translateContentsOfData:data error:error];
 }
 
 +(NSArray*)translateContentsOfURL:(NSURL*)url withTranslationNamed:(NSString*)translationName delegate:(id<CWTranslatorDelegate>)delegate error:(NSError**)error;
 {
     CWTranslation* translation = [CWTranslation translationNamed:translationName];
-    CWTranslator* translator = [[[self alloc] initWithTranslation:translation delegate:delegate] autorelease];
+    CWTranslator* translator = [[self alloc] initWithTranslation:translation delegate:delegate];
     return [translator translateContentsOfURL:url error:error];    
 }
 
@@ -102,19 +89,11 @@ static NSDateFormatter* _defaultDateFormatter = nil;
     self = [self init];
     if (self) {
         self.delegate = delegate;
-        rootTranslation = [translation retain];
+        rootTranslation = translation;
         stateStack = [[NSMutableArray alloc] initWithCapacity:16];
         rootObjects = [[NSMutableArray alloc] initWithCapacity:4];
     }
     return self;
-}
-
--(void)dealloc;
-{
-    [rootTranslation release];
-    [stateStack release];
-    [rootObjects release];
-    [super dealloc];
 }
 
 -(NSArray*)translateContentsOfData:(NSData*)data error:(NSError**)error;
@@ -135,9 +114,9 @@ static NSDateFormatter* _defaultDateFormatter = nil;
 {
     [rootObjects removeAllObjects];
     [stateStack removeAllObjects];
-    CWTranslatorState* state = [[[CWTranslatorState alloc] init] autorelease];
+    CWTranslatorState* state = [[CWTranslatorState alloc] init];
     if (rootTranslation.sourceNames) {
-        CWTranslation* translation = [[[CWTranslation alloc] init] autorelease];
+        CWTranslation* translation = [[CWTranslation alloc] init];
         [translation setValue:[NSSet setWithObject:rootTranslation] forKey:@"subTranslations"];
         state.translation = translation;
     } else {
@@ -146,46 +125,50 @@ static NSDateFormatter* _defaultDateFormatter = nil;
     [stateStack addObject:state];
 }
 
--(NSArray*)rootObjects;
+-(NSArray*)rootObjectsWithError:(NSError**)error;
 {
+    if (_error && error) {
+        *error = _error;
+    }
     return [NSArray arrayWithArray:rootObjects];
 }
 
+-(void)setError:(NSError*)error;
+{
+    _error = error;
+}
 
--(id)objectInstanceOfClass:(Class)aClass fromSourceName:(NSString*)name attributes:(NSDictionary*)attributes toKeyPath:(NSString*)key context:(NSString*)context;
+-(id)objectInstanceFromTranslatorState:(CWTranslatorState *)state;
 {
     id result = nil;
     BOOL shouldSkip = NO;
     if (_delegateFlags.objectInstanceOfClass) {
         result = [_delegate translator:self
-                 objectInstanceOfClass:aClass
-                        fromSourceName:name
-                            attributes:attributes
-                             toKeyPath:key
-                               context:context
+      objectInstanceForTranslatorState:state
                             shouldSkip:&shouldSkip];
     }
     if (result == nil && !shouldSkip) {
-        result = [[[aClass alloc] init] autorelease];
+        result = [[state.translation.destinationClass alloc] init];
     }
     return result;
 }
 
--(id)atomicObjectInstanceOfClass:(Class)aClass withString:(NSString*)aString fromSourceName:(NSString*)name attributes:(NSDictionary*)attributes toKeyPath:(NSString*)key context:(NSString*)context;
+-(id)atomicObjectInstanceFromTranslatorState:(CWTranslatorState *)state;
 {
     id result = nil;
     BOOL shouldSkip = NO;
     if (_delegateFlags.atomicObjectInstanceOfClass) {
         result = [_delegate translator:self
-           atomicObjectInstanceOfClass:aClass
-                            withString:aString
-                        fromSourceName:name
-                            attributes:attributes
-                             toKeyPath:key
-                               context:context
+atomicObjectInstanceFromTranslatorState:state
                             shouldSkip:&shouldSkip];
     }
     if (result == nil && !shouldSkip) {
+        Class aClass = state.translation.destinationClass;
+        NSString *aString = state.sourceText;
+        NSValueTransformer *transformer = state.translation.valueTransformer;
+        if (transformer) {
+            return [transformer transformedValue:aString];
+        }
         if (aClass == [NSString class]) {
             return aString;
         } else if (aClass == [NSNumber class]) {
@@ -200,41 +183,35 @@ static NSDateFormatter* _defaultDateFormatter = nil;
         } else if (aClass == [NSDate class]) {
             result = [[[self class] defaultDateFormatter] dateFromString:aString];
         } else {
-            result = [[[aClass alloc] initWithString:aString] autorelease];
+            result = [[aClass alloc] initWithString:aString];
         }
     }
 	return result;
 }
 
--(id)didTranslateObject:(id)anObject fromSourceName:(NSString*)name toKeyPath:(NSString*)key ontoObject:(id)parentObject context:(NSString*)context;
+-(id)didTranslateObject:(id)anObject fromTranslatorState:(CWTranslatorState *)state ontoObject:(id)parentObject;
 {
     if (_delegateFlags.didTranslateObject) {
         anObject = [_delegate translator:self
                       didTranslateObject:anObject
-                          fromSourceName:name
-                               toKeyPath:key
-                              ontoObject:parentObject
-                                 context:context];
+                     fromTranslatorState:state
+                              ontoObject:parentObject];
     }
 	return anObject;
 }
 
--(void)attachObject:(id)object onParentObject:(id)parent withTranslation:(CWTranslation*)translation sourceName:(NSString*)sourceName;
+-(void)attachObject:(id)object onParentObject:(id)parent withTranslatorState:(CWTranslatorState *)state;
 {
-    if (translation.destinationKeyPath == CWTranslationRootMarker) {
+    if (state.translation.destinationKeyPath == CWTranslationRootMarker) {
         parent = nil;
     }
-    object = [self didTranslateObject:object 
-                       fromSourceName:sourceName
-                            toKeyPath:translation.destinationKeyPath
-                           ontoObject:parent
-                              context:translation.context];
+    object = [self didTranslateObject:object fromTranslatorState:state ontoObject:parent];
     if (object) {
         if (parent == nil) {
             [rootObjects addObject:object];
         } else {
-            NSString* key = translation.destinationKeyPath;
-            switch (translation.action) {
+            NSString* key = state.translation.destinationKeyPath;
+            switch (state.translation.action) {
                 case CWTranslationActionAssign:
                     [parent setValue:object forKeyPath:key];
                     break;
@@ -251,22 +228,20 @@ static NSDateFormatter* _defaultDateFormatter = nil;
     }
 }
 
-- (void)attachAttributes:(NSDictionary*)attributes ontoObject:(id)object withTranslation:(CWTranslation*)translation sourceName:(NSString*)name;
+- (void)attachAttributesOntoObject:(id)object withTranslatorState:(CWTranslatorState *)state;
 {
-    [attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        CWTranslation* subTranslation = [translation subTranslationForSourceName:key type:CWTranslationSourceTypeAttribute];
+    [state.attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        CWTranslation* subTranslation = [state.translation subTranslationForSourceName:key type:CWTranslationSourceTypeAttribute];
         if (subTranslation) {
-            id subObject = [self atomicObjectInstanceOfClass:subTranslation.destinationClass
-                                                  withString:obj 
-                                              fromSourceName:key
-                                                  attributes:nil
-                                                   toKeyPath:translation.destinationKeyPath
-                                                     context:translation.context];
+            CWTranslatorState *subState = [[CWTranslatorState alloc] init];
+            subState.sourceName = key;
+            subState.sourceText = obj;
+            subState.translation = subTranslation;
+            id subObject = [self atomicObjectInstanceFromTranslatorState:subState];
             if (subObject) {
                 [self attachObject:subObject
                     onParentObject:object
-                   withTranslation:subTranslation
-                        sourceName:name];
+               withTranslatorState:subState];
             }
         }
     }];
@@ -289,40 +264,36 @@ static NSDateFormatter* _defaultDateFormatter = nil;
     CWTranslation* translation = [state.translation subTranslationForSourceName:name type:CWTranslationSourceTypeValue];
     if (translation) {
         if (translation.action == CWTranslationActionRequire) {
-            state = [[[CWTranslatorState alloc] init] autorelease];
+            state = [[CWTranslatorState alloc] init];
             state.sourceName = name;
             state.translation = translation;
+            state.attributes = attributes;
             [stateStack addObject:state];
             id parent = [self currentParentObject];
-            [self attachAttributes:attributes 
-                        ontoObject:parent 
-                   withTranslation:translation 
-                        sourceName:name];
+            [self attachAttributesOntoObject:parent 
+                         withTranslatorState:state];
             return;
         } else if ([translation isAtomic]) {
-            state = [[[CWTranslatorState alloc] init] autorelease];
+            state = [[CWTranslatorState alloc] init];
             state.sourceName = name;
             state.translation = translation;
+            state.attributes = attributes;
             [stateStack addObject:state];
             return;
         } else {
-            id object = [self objectInstanceOfClass:translation.destinationClass
-                                     fromSourceName:name
-                                         attributes:attributes
-                                          toKeyPath:translation.destinationKeyPath
-                                            context:translation.context];
+            state = [[CWTranslatorState alloc] init];
+            state.sourceName = name;
+            state.translation = translation;
+            state.attributes = attributes;
+            id object = [self objectInstanceFromTranslatorState:state];
             if (object) {
-                state = [[[CWTranslatorState alloc] init] autorelease];
-                state.sourceName = name;
-                state.translation = translation;
                 state.object = object;
-                state.attributes = attributes;
                 [stateStack addObject:state];
-                [self attachAttributes:attributes 
-                            ontoObject:object 
-                       withTranslation:translation 
-                            sourceName:name];
+                [self attachAttributesOntoObject:object
+                             withTranslatorState:state];
                 return;
+            } else {
+                state = [stateStack lastObject];
             }
         }
     }
@@ -342,18 +313,13 @@ static NSDateFormatter* _defaultDateFormatter = nil;
         CWTranslation* translation = state.translation;
         if (translation.action != CWTranslationActionRequire) {
             if ([translation isAtomic]) {
-                state.object = [self atomicObjectInstanceOfClass:translation.destinationClass
-                                                      withString:text
-                                                  fromSourceName:name
-                                                      attributes:state.attributes
-                                                       toKeyPath:translation.destinationKeyPath
-                                                         context:translation.context];
+                state.sourceText = text;
+                state.object = [self atomicObjectInstanceFromTranslatorState:state];
             }
             id parent = [self currentParentObject];
             [self attachObject:state.object
                 onParentObject:parent
-               withTranslation:translation
-                    sourceName:name];
+           withTranslatorState:state];
         }
         [stateStack removeLastObject];
     }

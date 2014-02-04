@@ -22,51 +22,52 @@ A human readable text-format should instead be used, by loading text files
 using the standard xml translation file extension: .xmltranslation.
 
 XML Translation format in Backus-Naur Form:
-	translation ::= statement |							# A translation is one or more statement
-					"{" statement* "}"
-	statement 	::= source action { ";" }               # A statment is a source to perform actions on.
+    translation ::= statement |                        	# A translation is one or more statement
+                    "{" statement* "}"
+    statement   ::= source action { ";" }             	# A statment is a source to perform actions on.
     source      ::= { "." } SYMBOL |                    # A symbol, with optional argument marker.
                     source "|" source*                  # A pipe separated list of sources.
-	action 		::= "->" translation |					# -> Is a required tag to descend into, but take no action on.
-					assignment target { ":" type }		# All other actions are assignment to a target, with optional type (NSString is used for untyped actions)
-	assignment 	::= ">>" |								# Assign to target using setValue:forKey:
-					"+>"								# Append to target using addValue:forKey:
+    action      ::= "->" translation |                  # -> Is a required tag to descend into, but take no action on.
+                    assignment target { ":" type }      # All other actions are assignment to a target, with optional type (NSString is used for untyped actions)
+    assignment  ::= ">>" |                              # Assign to target using setValue:forKey:
+                    "+>"                                # Append to target using addValue:forKey:
     target      ::= destination context                 # The target 
-	destination ::= "@root" |							# Target is the array of root objects to return.
-					SYMBOL								# Target is a named property accessable using setValue:forKey:
+    destination ::= "@root" |                           # Target is the array of root objects to return.
+                    SYMBOL                              # Target is a named property accessable using setValue:forKey:
     context     ::= { "(" SYMBOL ")" }                  # Context is a user defined string.
-	type 		::= SYMBOL								# Type is a known Objective-C class (NSNumber, NSDate, NSURL)
-					SYMBOL translation |				# Type is an Objective-C class with  inline translation definition
-				"@" SYMBOL								# Type is an Objective-C class with translation defiition in external class
+    type        ::= SYMBOL transform                    # Type is a known Objective-C class (NSNumber, NSDate, NSURL)
+                    SYMBOL translation |                # Type is an Objective-C class with  inline translation definition
+                    "@" SYMBOL                          # Type is an Objective-C class with translation defiition in external class
+    transform   ::= { "(" SYMBOL ")" }                  # A named NSValueTranformation to use for tranforming the value.
 
 Exmaple for translation this XML;
- 	<Node>
-		<Id>12</Id>
-		<Url>http://www.foo.com"</Url>
-		<Type name="bar" date="2010-10-28"/>
-	</Node>
+     <Node>
+        <Id>12</Id>
+        <Url>http://www.foo.com"</Url>
+        <Type name="bar" date="2010-10-28"/>
+    </Node>
 To fit these Objective-C classes:
-	@interface CWNodeType : NSObject {
-	}
-	@property(copy) NSString* name;
-	@property(retain) NSDate* date;
-	@end
-	@interface CWNode : NSObject {
-	}
-	@property(assign) NSInteger nodeID;
-	@property(copy) NSURL* url;
-	@property(retain) CWNodeType* type;
-	@end
+    @interface CWNodeType : NSObject {
+    }
+    @property(copy) NSString* name;
+    @property(retain) NSDate* date;
+    @end
+    @interface CWNode : NSObject {
+    }
+    @property(assign) NSInteger nodeID;
+    @property(copy) NSURL* url;
+    @property(retain) CWNodeType* type;
+    @end
 
 Use this translation definition
-	Node +> @root : CWNode {			# Node tag shoudl be added as root object of class CWNode
-		Id >> nodeID : NSNumber;		# Set Id tag content to nodeID property typed as a NSNumber
-		Url >> url : NSURL;				# Set Url tag content to url property typed as a NSURL
-		Type >> type : CWNodeType {		# Type tag sets a the type property to a new instance of CWNodeType class
-			.name >> name;				# Set name attribute content to name property as a string
-			.date >> date : NSDate; 	# Set date attribute content to date property typed as a NSDate
-		}
-	}
+    Node +> @root : CWNode {            # Node tag shoudl be added as root object of class CWNode
+        Id >> nodeID : NSNumber;        # Set Id tag content to nodeID property typed as a NSNumber
+        Url >> url : NSURL;                # Set Url tag content to url property typed as a NSURL
+        Type >> type : CWNodeType {        # Type tag sets a the type property to a new instance of CWNodeType class
+            .name >> name;                # Set name attribute content to name property as a string
+            .date >> date : NSDate;     # Set date attribute content to date property typed as a NSDate
+        }
+    }
 
 Like this:
     NSArray* objects = [CWXMLTranslator translateContentsOfURL:urlToXML

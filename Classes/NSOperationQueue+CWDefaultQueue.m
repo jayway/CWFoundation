@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -46,8 +47,7 @@ static NSOperationQueue* cw_defaultQueue = nil;
 +(void)setDefaultQueue:(NSOperationQueue*)operationQueue;
 {
 	if (operationQueue != cw_defaultQueue) {
-        [cw_defaultQueue release];
-        cw_defaultQueue = [operationQueue retain];
+        cw_defaultQueue = operationQueue;
     }
 }
 
@@ -76,7 +76,7 @@ static NSOperationQueue* cw_defaultQueue = nil;
 {
 	NSInvocationOperation* operation = [[NSInvocationOperation alloc] initWithTarget:self selector:aSelector object:arg];
     [queue addOperation:operation];
-	return [operation autorelease];  
+	return operation;  
 }
 
 -(NSInvocationOperation*)performSelector:(SEL)aSelector onQueue:(NSOperationQueue*)queue withObject:(id)arg dependencies:(NSArray*)dependencies priority:(NSOperationQueuePriority)priority waitUntilDone:(BOOL)wait;
@@ -97,7 +97,7 @@ static NSOperationQueue* cw_defaultQueue = nil;
             }
         }
     }
-	return [operation autorelease];  
+	return operation;  
 }
 
 @end

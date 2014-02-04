@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -46,8 +47,8 @@
 	CWTranslation* translation = nil;
     STAssertNoThrow(translation = [CWTranslation translationWithDSLString:dsl], @"legal DSL");
 	STAssertNotNil(translation, @"translation should not be nil");
-    CWXMLTranslator* translator = [[[CWXMLTranslator alloc] initWithTranslation:translation
-                                                                       delegate:nil] autorelease];
+    CWXMLTranslator* translator = [[CWXMLTranslator alloc] initWithTranslation:translation
+                                                                       delegate:nil];
     STAssertNotNil(translator, @"translator should not be nil");
     NSLog(@"translation: %@", translation);
     return translator;
@@ -217,23 +218,22 @@
 
 #pragma mark --- Delegate methods
 
--(id)translator:(CWTranslator *)translator objectInstanceOfClass:(Class)aClass fromSourceName:(NSString *)name attributes:(NSDictionary *)attributes toKeyPath:(NSString *)key context:(NSString *)context shouldSkip:(BOOL *)skip;
+- (id)translator:(CWTranslator *)translator objectInstanceForTranslatorState:(CWTranslatorState *)state shouldSkip:(BOOL *)skip;
 {
 	translateObjectCount++;
     return nil;
 }
 
--(id)translator:(CWTranslator *)translator didTranslateObject:(id)anObject fromSourceName:(NSString *)name toKeyPath:(NSString *)key ontoObject:(id)parentObject context:(NSString *)context;
+- (id)translator:(CWTranslator *)translator didTranslateObject:(id)anObject fromTranslatorState:(CWTranslatorState *)state ontoObject:(id)parentObject;
 {
 	didTranslateObjectCount++;
-    if (context) {
+    if (state.translation.context) {
         didTranslateWithContextCount++;
     }
     return anObject;
 }
 
-
--(id)translator:(CWTranslator *)translator atomicObjectInstanceOfClass:(Class)aClass withString:(NSString *)aString fromSourceName:(NSString *)name attributes:(NSDictionary *)attributes toKeyPath:(NSString *)key context:(NSString *)context shouldSkip:(BOOL *)skip;
+-(id)translator:(CWTranslator *)translator atomicObjectInstanceFromTranslatorState:(CWTranslatorState *)state shouldSkip:(BOOL *)skip;
 {
     translatePrimitiveObjectCount++;
 	return nil;

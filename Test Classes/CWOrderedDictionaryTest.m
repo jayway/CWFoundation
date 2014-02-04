@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -42,24 +43,24 @@
 
 -(void)tearDown;
 {
-	[orderedDictionary release], orderedDictionary = nil;
-    [objects release], objects = nil;
-    [keys release], keys = nil;
+	orderedDictionary = nil;
+    objects = nil;
+    keys = nil;
 }
 
 -(void)testAllInitializersYieldSameResult;
 {
-    CWOrderedDictionary* dict = [[[CWOrderedDictionary alloc] initWithDictionary:orderedDictionary] autorelease];
+    CWOrderedDictionary* dict = [[CWOrderedDictionary alloc] initWithDictionary:orderedDictionary];
     STAssertEqualObjects(orderedDictionary,
                          dict,
                          @"initWithDictionary: failed");
-	dict = [[[CWOrderedDictionary alloc] initWithObjects:(id[]){@"D", @"E", @"F", nil} 
+	dict = [[CWOrderedDictionary alloc] initWithObjects:(id[]){@"D", @"E", @"F", nil} 
                                                  forKeys:(id[]){@"A", @"B", @"C", nil} 
-                                                   count:3] autorelease];
+                                                   count:3];
     STAssertEqualObjects(orderedDictionary,
                          dict,
                          @"initWithObjects:forKeys:count: failed");
-    dict = [[[CWOrderedDictionary alloc] initWithObjectsAndKeys:@"D", @"A", @"E", @"B", @"F", @"C", nil] autorelease];
+    dict = [[CWOrderedDictionary alloc] initWithObjectsAndKeys:@"D", @"A", @"E", @"B", @"F", @"C", nil];
     STAssertEqualObjects(orderedDictionary,
                          dict,
                          @"initWithObjectsAndKeys: failed");
@@ -78,7 +79,7 @@
 
 -(void)testInsertsWithSetObject;
 {
-	CWOrderedDictionary* dict = [[[CWOrderedDictionary alloc] initWithCapacity:3] autorelease];
+	CWOrderedDictionary* dict = [[CWOrderedDictionary alloc] initWithCapacity:3];
     [dict setObject:@"D" forKey:@"A"];
     [dict setObject:@"E" forKey:@"B"];
     [dict setObject:@"F" forKey:@"C"];
@@ -89,7 +90,7 @@
 
 -(void)testInsertsWithInsertAtIndex;
 {
-	CWOrderedDictionary* dict = [[[CWOrderedDictionary alloc] initWithCapacity:3] autorelease];
+	CWOrderedDictionary* dict = [[CWOrderedDictionary alloc] initWithCapacity:3];
     [dict insertObject:@"E" forKey:@"B" atIndex:0];
     [dict insertObject:@"F" forKey:@"C" atIndex:1];
     [dict insertObject:@"D" forKey:@"A" atIndex:0];

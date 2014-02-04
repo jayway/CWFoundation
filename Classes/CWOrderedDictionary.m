@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -103,12 +104,6 @@
     return self;
 }
 
--(void)dealloc;
-{
-    [_dictionary release];
-    [_array release];
-    [super dealloc];
-}
 
 #pragma mark --- Required for subclassing NSMutableDictionary
 
@@ -147,8 +142,8 @@
 {
 	self = [super initWithCoder:aDecoder];
     if (self) {
-    	_dictionary = [[aDecoder decodeObjectForKey:@"CWOrderedDictionary.dictionary"] retain];
-    	_array = [[aDecoder decodeObjectForKey:@"CWOrderedDictionary.array"] retain];
+    	_dictionary = [aDecoder decodeObjectForKey:@"CWOrderedDictionary.dictionary"];
+    	_array = [aDecoder decodeObjectForKey:@"CWOrderedDictionary.array"];
     }
     return self;
 }
@@ -191,7 +186,7 @@
 static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
 {
 	if ([object isKindOfClass:[NSString class]]) {
-		return [[object retain] autorelease];
+		return object;
 	} else if ([object respondsToSelector:@selector(descriptionWithLocale:indent:)]) {
 		return [object descriptionWithLocale:locale indent:indent];
 	} else if ([object respondsToSelector:@selector(descriptionWithLocale:)]) {
@@ -246,10 +241,8 @@ static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
         [NSException raise:NSInvalidArgumentException
                     format:@"No object for key %@", key];
     } else if (oldIndex != index) {
-        [key retain];
         [_array removeObjectAtIndex:oldIndex];
         [_array insertObject:key atIndex:index];
-        [key release];
     } else {
         // Same index, no-op
     }
@@ -276,7 +269,7 @@ static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
     for (id key in [_dictionary allKeysForObject:object]) {
         [indexes addIndex:[_array indexOfObject:key]];
     }
-    return [[[NSIndexSet alloc] initWithIndexSet:indexes] autorelease];
+    return [[NSIndexSet alloc] initWithIndexSet:indexes];
 }
 
 #pragma mark --- Sort methods
@@ -311,20 +304,17 @@ static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
 
 -(void)sortByValueUsingSelector:(SEL)comparator;
 {
-	[_array release];
     _array = [[NSMutableArray alloc] initWithArray:[_dictionary keysSortedByValueUsingSelector:comparator]];
 }
 
 #if NS_BLOCKS_AVAILABLE
 -(void)sortByValueUsingComparator:(NSComparator)cmptr;
 {
-	[_array release];
     _array = [[NSMutableArray alloc] initWithArray:[_dictionary keysSortedByValueUsingComparator:cmptr]];
 }
 
 -(void)sortByValueWithOptions:(NSSortOptions)opts usingComparator:(NSComparator)cmptr;
 {
-	[_array release];
     _array = [[NSMutableArray alloc] initWithArray:[_dictionary keysSortedByValueWithOptions:opts 
                                                                              usingComparator:cmptr]];
 }
@@ -347,7 +337,7 @@ static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
     return [NSArray arrayWithArray:values];
 }
 
--(NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState*)state objects:(id*)stackbuf count:(NSUInteger)len;
+-(NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState*)state objects:(id __unsafe_unretained [])stackbuf count:(NSUInteger)len;
 {
     return [_array countByEnumeratingWithState:state objects:stackbuf count:len];
 }

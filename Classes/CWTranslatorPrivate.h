@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -32,33 +33,30 @@
 
 
 /*!
- * @abstract Private helper class for CWTranslator.
+ * @abstract Private interface needed for CWTranslator to work.
  */
-@interface CWTranslatorState : NSObject {
-@private
-}
+@interface CWTranslatorState  ()
 
-@property(nonatomic, copy) NSString* sourceName;
-@property(nonatomic, retain) CWTranslation* translation;
-@property(nonatomic, assign) NSUInteger nestingDepth;
-@property(nonatomic, retain) id object;
-@property(nonatomic, retain) NSDictionary* attributes;
+@property(nonatomic, readwrite, copy) NSString* sourceName;
+@property(nonatomic, readwrite, retain) NSString* sourceText;
+@property(nonatomic, readwrite, retain) CWTranslation* translation;
+@property(nonatomic, readwrite, assign) NSUInteger nestingDepth;
+@property(nonatomic, readwrite, retain) id object;
+@property(nonatomic, readwrite, retain) NSDictionary* attributes;
 
 @end
-
 
 /*!
  * @abstract Private interface needed for CWTranslation and CWTranslator to co-exist.
  */
 @interface CWTranslation ()
 
-@property(nonatomic, readonly, retain) NSSet* sourceNames;
-
 @property(nonatomic, readwrite, retain) NSMutableSet* valueSourceNames;
 @property(nonatomic, readwrite, retain) NSMutableSet* attributeSourceNames;
 @property(nonatomic, readwrite, assign) CWTranslationAction action;
 @property(nonatomic, readwrite, copy) NSString* destinationKeyPath;
 @property(nonatomic, readwrite, assign) Class destinationClass;
+@property(nonatomic, readwrite, copy) NSString* transformerName;
 @property(nonatomic, readwrite, copy) NSString* context;
 @property(nonatomic, readwrite, retain) NSSet* subTranslations;
 
@@ -76,7 +74,9 @@
 
 // Must be called by subclasses.
 -(void)beginTranslation;
--(NSArray*)rootObjects;
+-(NSArray*)rootObjectsWithError:(NSError**)error;
+
+-(void)setError:(NSError*)error;
 
 // Must be overridden by subclasses.
 -(void)startGroupingWithName:(NSString*)name attributes:(NSDictionary*)attributes;

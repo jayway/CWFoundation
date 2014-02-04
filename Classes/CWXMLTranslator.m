@@ -4,6 +4,7 @@
 //  Created by Fredrik Olsson 
 //
 //  Copyright (c) 2011, Jayway AB All rights reserved.
+//  Copyright (c) 2012, Fredrik Olsson All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
 //  modification, are permitted provided that the following conditions are met:
@@ -37,12 +38,6 @@
 
 #pragma mark --- Instance life cycle
 
--(void)dealloc;
-{
-  [currentText release];
-  [super dealloc];
-}
-
 
 #pragma mark --- Public API
 
@@ -51,7 +46,7 @@
   [parser setDelegate:self];
   [self beginTranslation];
   if ([parser parse]) {
-    return [self rootObjects];
+      return [self rootObjectsWithError:error];
   } else if (error) {
     *error = [parser parserError];
   }
@@ -61,7 +56,7 @@
 
 -(NSArray*)translateContentsOfData:(NSData*)data error:(NSError**)error;
 {
-  NSXMLParser* parser = [[[NSXMLParser alloc] initWithData:data] autorelease];
+  NSXMLParser* parser = [[NSXMLParser alloc] initWithData:data];
   if (parser) {
     return [self translateWithXMLParser:parser
                                   error:error];
@@ -71,7 +66,7 @@
 
 -(NSArray*)translateContentsOfURL:(NSURL*)url error:(NSError**)error;
 {
-  NSXMLParser* parser = [[[NSXMLParser alloc] initWithContentsOfURL:url] autorelease];
+  NSXMLParser* parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
   if (parser) {
     return [self translateWithXMLParser:parser
                                   error:error];
@@ -85,7 +80,7 @@
 -(void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict;
 {
   [self startGroupingWithName:elementName attributes:attributeDict];
-  [currentText release], currentText = [[NSMutableString alloc] initWithCapacity:32];
+  currentText = [[NSMutableString alloc] initWithCapacity:32];
 }
 
 -(void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string;
