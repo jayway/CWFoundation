@@ -94,7 +94,7 @@ static const SCNetworkReachabilityFlags kConnectionDown =  kSCNetworkReachabilit
 
 static CWNetworkMonitor* _defaultMonitor = nil;
 
--(id)initWithReachabilityRef:(SCNetworkReachabilityRef)ref;
+-(instancetype)initWithReachabilityRef:(SCNetworkReachabilityRef)ref;
 {
 	self = [super init];
     if (self) {

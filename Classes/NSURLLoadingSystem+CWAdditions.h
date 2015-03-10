@@ -43,28 +43,28 @@
 
 @interface NSURLRequest (CWURLLoadingSystemAdditions)
 
-+(id)requestWithURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
++(instancetype)requestWithURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
 
 @end
 
 
 @interface NSData (CWURLLoadingSystemAdditions)
 
-+(id)dataWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
-+(id)dataWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields options:(NSDataReadingOptions)mask error:(NSError **)error;
++(instancetype)dataWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
++(instancetype)dataWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields options:(NSDataReadingOptions)mask error:(NSError **)error;
 
--(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
--(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields options:(NSDataReadingOptions)mask error:(NSError **)error;
+-(instancetype)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
+-(instancetype)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields options:(NSDataReadingOptions)mask error:(NSError **)error;
 
 @end
 
 
 @interface NSString (CWURLLoadingSystemAdditions)
 
-+(id)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
-+(id)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields usedEncoding:(NSStringEncoding*)enc error:(NSError **)error;
++(instancetype)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
++(instancetype)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields usedEncoding:(NSStringEncoding*)enc error:(NSError **)error;
 
--(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
--(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields usedEncoding:(NSStringEncoding*)enc error:(NSError **)error;
+-(instancetype)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
+-(instancetype)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields usedEncoding:(NSStringEncoding*)enc error:(NSError **)error;
 
 @end

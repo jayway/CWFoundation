@@ -45,6 +45,6 @@
 
 +(NSString*)randomUUIDString;
 
--(BOOL)isUUIDString;
+@property (NS_NONATOMIC_IOSONLY, getter=isUUIDString, readonly) BOOL UUIDString;
 
 @end

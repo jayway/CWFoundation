@@ -140,13 +140,13 @@
     NSTimeInterval _timeIntervalSinceNow;
 }
 
--(id)initWithTimeIntervalSinceNow:(NSTimeInterval)timeInterval;
+-(instancetype)initWithTimeIntervalSinceNow:(NSTimeInterval)timeInterval NS_DESIGNATED_INITIALIZER;
 
 @end
 
 @implementation CWRelativeDate
 
--(id)initWithTimeIntervalSinceNow:(NSTimeInterval)timeInterval;
+-(instancetype)initWithTimeIntervalSinceNow:(NSTimeInterval)timeInterval;
 {
     self = [super init];
     if (self) {
@@ -160,7 +160,7 @@
     return [self class];
 }
 
--(id)initWithCoder:(NSCoder*)aDecoder;
+-(instancetype)initWithCoder:(NSCoder*)aDecoder;
 {
     self = [super init];
     if (self) {

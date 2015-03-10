@@ -81,7 +81,7 @@
 /*!
  * @abstract Init translator with delegate to send created root objects to.
  */
--(id)initWithTranslation:(CWTranslation*)translation delegate:(id<CWTranslatorDelegate>)delegate;
+-(instancetype)initWithTranslation:(CWTranslation*)translation delegate:(id<CWTranslatorDelegate>)delegate;
 
 /*!
  * @abstract Translate the XML document in data using a delegate and an optional out error argument.

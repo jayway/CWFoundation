@@ -32,11 +32,11 @@
 
 #import "NSOperationQueue+CWDefaultQueue.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, CWInvocationProxyType) {
 	CWInvocationProxyTypeBackgound,
 	CWInvocationProxyTypeThread,
 	CWInvocationProxyTypeQueue,
-} CWInvocationProxyType;
+} ;
 
 @interface CWInvocationProxy : NSObject {
 @private
@@ -136,7 +136,7 @@ typedef enum {
     return proxy;
 }
 
--(id)init;
+-(instancetype)init;
 {
     self = [super init];
     if (self) {

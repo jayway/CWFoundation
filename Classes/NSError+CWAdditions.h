@@ -51,17 +51,17 @@ extern NSString* const CWApplicationErrorDomain;
 /*!
  * @abstract Initialize a copy of the error.
  */
--(id)initWithError:(NSError*)error;
+-(instancetype)initWithError:(NSError*)error;
 
 /*!
  * @abstract Create a copy of the error.
  */
-+(id)errorWithError:(NSError*)error;
++(instancetype)errorWithError:(NSError*)error;
 
 /*!
  * @abstract Return an NSError with localized description and reason.
  */
-+(id)errorWithDomain:(NSString *)domainOrNil code:(NSInteger)code 
++(instancetype)errorWithDomain:(NSString *)domainOrNil code:(NSInteger)code 
       localizedDescription:(NSString *)description 
            localizedReason:(NSString *)reason;
 
@@ -75,7 +75,7 @@ extern NSString* const CWApplicationErrorDomain;
  *			   Index 2 - Other button, eg. "Cancel"
  *			   If only two options are available then the index 1 is treated as index 2.
  */
-+(id)errorWithDomain:(NSString *)domainOrNil code:(NSInteger)code 
++(instancetype)errorWithDomain:(NSString *)domainOrNil code:(NSInteger)code 
       localizedDescription:(NSString *)description 
            localizedReason:(NSString *)reason
 localizedRecoverySuggestion:(NSString*)suggestionOrNil
@@ -85,7 +85,7 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 /*!
  * @abstract Get the underlying error that caused this error.
  */
--(NSError*)underlyingError;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSError *underlyingError;
 
 @end
 
@@ -97,7 +97,7 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
     NSMutableDictionary* _mutableUserInfo;
 }
 
-- (NSMutableDictionary*)mutableUserInfo;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSMutableDictionary *mutableUserInfo;
 
 - (void)setDomain:(NSString *)domain;
 - (void)setCode:(NSInteger)code;

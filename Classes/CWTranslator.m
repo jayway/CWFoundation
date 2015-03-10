@@ -97,7 +97,7 @@ static NSDateFormatter* _defaultDateFormatter = nil;
     return [translator translateContentsOfURL:url error:error];    
 }
 
--(id)initWithTranslation:(CWTranslation*)translation delegate:(id<CWTranslatorDelegate>)delegate;
+-(instancetype)initWithTranslation:(CWTranslation*)translation delegate:(id<CWTranslatorDelegate>)delegate;
 {
     self = [self init];
     if (self) {
@@ -192,9 +192,9 @@ static NSDateFormatter* _defaultDateFormatter = nil;
             result = [NSDecimalNumber decimalNumberWithString:aString];
             if (result == nil || [result isEqualToNumber:[NSDecimalNumber notANumber]]) {
                 if ([aString caseInsensitiveCompare:@"true"] == NSOrderedSame || [aString caseInsensitiveCompare:@"yes"] == NSOrderedSame) {
-                    result = [NSNumber numberWithBool:YES];
+                    result = @YES;
                 } else if ([aString caseInsensitiveCompare:@"false"] == NSOrderedSame || [aString caseInsensitiveCompare:@"no"] == NSOrderedSame) {
-                    result = [NSNumber numberWithBool:NO];
+                    result = @NO;
                 }
             }
         } else if (aClass == [NSDate class]) {
@@ -275,7 +275,7 @@ static NSDateFormatter* _defaultDateFormatter = nil;
 -(id)currentParentObject;
 {
     for (int i = [stateStack count] - 2; i >= 0; i--) {
-        CWTranslatorState* parentState = [stateStack objectAtIndex:i];
+        CWTranslatorState* parentState = stateStack[i];
         if (parentState.object) {
             return parentState.object;
         }

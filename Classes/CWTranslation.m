@@ -55,7 +55,7 @@ NSString* const CWTranslationRootMarker = @"@root";
 
 #pragma mark --- Object life cycle
 
--(id)init;
+-(instancetype)init;
 {
 	self = [super init];
     if (self) {
@@ -353,7 +353,7 @@ NSString* const CWTranslationRootMarker = @"@root";
 -(CWTranslation*)translationNamed:(NSString*)name;
 {
     static NSMutableDictionary* translationCache = nil;
-    CWTranslation* result = [translationCache objectForKey:name];
+    CWTranslation* result = translationCache[name];
     if (result == nil) {
         NSString* pathExtension = [name pathExtension];
         if ([pathExtension length] == 0 || [pathExtension isEqualToString:@"translation"]) {
@@ -373,7 +373,7 @@ NSString* const CWTranslationRootMarker = @"@root";
         	if (translationCache == nil) {
             	translationCache = [[NSMutableDictionary alloc] initWithCapacity:8];
             }
-            [translationCache setObject:result forKey:name];
+            translationCache[name] = result;
         }
     }
     return result;

@@ -30,17 +30,17 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, CWTranslationAction) {
     CWTranslationActionRequire,
     CWTranslationActionAssign,
     CWTranslationActionAppend
-} CWTranslationAction;
+} ;
 
-typedef enum {
+typedef NS_ENUM(NSInteger, CWTranslationSourceType) {
     CWTranslationSourceTypeAny,
     CWTranslationSourceTypeAttribute,
     CWTranslationSourceTypeValue
-} CWTranslationSourceType;
+} ;
 
 
 extern NSString* const CWTranslationRootMarker;

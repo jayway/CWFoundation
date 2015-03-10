@@ -42,12 +42,12 @@
 /*!
  * @abstract Proxy for invoking methods on the main thread.
  */
--(id)mainThreadProxy;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id mainThreadProxy;
 
 /*!
  * @abstract Proxy for invoking methods on a background thread.
  */
--(id)backgroundProxy;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id backgroundProxy;
 
 /*!
  * @abstract Proxy for invoking methods on specific thread, optionaly block until done.
@@ -68,7 +68,7 @@
  * @discussion Block current thread until methods has been invocated on target thread.
  * @discussion Not supported by backgroundProxy proxies.
  */
--(id)waitUntilDone;
+@property (NS_NONATOMIC_IOSONLY, readonly, strong) id waitUntilDone;
 
 /*!
  * @abstract Delay method invocation.

@@ -35,22 +35,22 @@ NSString* const CWApplicationErrorDomain = @"CWApplicationErrorDomain";
 
 @implementation NSError (CWErrorAdditions)
 
--(id)init;
+-(instancetype)init;
 {
 	return [self initWithDomain:CWFoundationAdditionsErrorDomain code:0 userInfo:nil];
 }
 
--(id)initWithError:(NSError*)error;
+-(instancetype)initWithError:(NSError*)error;
 {
     return [self initWithDomain:[error domain] code:[error code] userInfo:[error userInfo]];
 }
 
-+(id)errorWithError:(NSError*)error;
++(instancetype)errorWithError:(NSError*)error;
 {
 	return [[[self alloc] initWithError:error] autorelease];
 }
 
-+(id)errorWithDomain:(NSString *)domainOrNil code:(NSInteger)code 
++(instancetype)errorWithDomain:(NSString *)domainOrNil code:(NSInteger)code 
       localizedDescription:(NSString *)description 
            localizedReason:(NSString *)reason;
 {
@@ -63,7 +63,7 @@ NSString* const CWApplicationErrorDomain = @"CWApplicationErrorDomain";
         localizedRecoveryOptions:nil];    
 }
 
-+(id)errorWithDomain:(NSString *)domainOrNil code:(NSInteger)code 
++(instancetype)errorWithDomain:(NSString *)domainOrNil code:(NSInteger)code 
       localizedDescription:(NSString *)description 
            localizedReason:(NSString *)reason
 localizedRecoverySuggestion:(NSString*)suggestionOrNil
@@ -74,21 +74,21 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
     	domainOrNil = CWApplicationErrorDomain;
     }
 	NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:4];
-    [userInfo setObject:description forKey:NSLocalizedDescriptionKey];
-    [userInfo setObject:reason forKey:NSLocalizedFailureReasonErrorKey];
+    userInfo[NSLocalizedDescriptionKey] = description;
+    userInfo[NSLocalizedFailureReasonErrorKey] = reason;
     if (suggestionOrNil) {
-    	[userInfo setObject:suggestionOrNil forKey:NSLocalizedRecoverySuggestionErrorKey];
+    	userInfo[NSLocalizedRecoverySuggestionErrorKey] = suggestionOrNil;
     }
     if (recoveryAttempterOrNil && [recoveryOptionsOrNil count] > 0) {
-    	[userInfo setObject:recoveryAttempterOrNil forKey:NSRecoveryAttempterErrorKey];
-        [userInfo setObject:recoveryOptionsOrNil forKey:NSLocalizedRecoveryOptionsErrorKey];
+    	userInfo[NSRecoveryAttempterErrorKey] = recoveryAttempterOrNil;
+        userInfo[NSLocalizedRecoveryOptionsErrorKey] = recoveryOptionsOrNil;
     }
     return [self errorWithDomain:domainOrNil code:code userInfo:userInfo];
 }
 
 -(NSError*)underlyingError;
 {
-	return [[self userInfo] objectForKey:NSUnderlyingErrorKey];    
+	return [self userInfo][NSUnderlyingErrorKey];    
 }
 
 -(id)copyWithZone:(NSZone *)zone;
@@ -109,7 +109,7 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 
 @implementation NSMutableError
 
-- (id)initWithDomain:(NSString *)domain code:(NSInteger)code userInfo:(NSDictionary *)dict;
+- (instancetype)initWithDomain:(NSString *)domain code:(NSInteger)code userInfo:(NSDictionary *)dict;
 {
 	self = [super initWithDomain:domain code:code userInfo:dict];
     if (self) {
@@ -121,7 +121,7 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
     return self;
 }
 
-+ (id)errorWithDomain:(NSString *)domain code:(NSInteger)code userInfo:(NSDictionary *)dict;
++ (instancetype)errorWithDomain:(NSString *)domain code:(NSInteger)code userInfo:(NSDictionary *)dict;
 {
 	return [[[self alloc] initWithDomain:domain code:code userInfo:dict] autorelease];
 }
@@ -153,15 +153,14 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 
 - (void)setCode:(NSInteger)code;
 {
-	[self setValue:[NSNumber numberWithInteger:code] 
+	[self setValue:@(code) 
             forKey:@"_code"];
 }
 
 - (void)setLocalizedDescription:(NSString*)description;
 {
     if (description) {
-		[_mutableUserInfo setObject:[NSString stringWithString:description]
-                             forKey:NSLocalizedDescriptionKey];
+		_mutableUserInfo[NSLocalizedDescriptionKey] = [NSString stringWithString:description];
     } else {
     	[_mutableUserInfo removeObjectForKey:NSLocalizedDescriptionKey];
     }
@@ -170,8 +169,7 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 - (void)setLocalizedFailureReason:(NSString*)reason;
 {
     if (reason) {
-		[_mutableUserInfo setObject:[NSString stringWithString:reason]
-                             forKey:NSLocalizedFailureReasonErrorKey];
+		_mutableUserInfo[NSLocalizedFailureReasonErrorKey] = [NSString stringWithString:reason];
     } else {
     	[_mutableUserInfo removeObjectForKey:NSLocalizedFailureReasonErrorKey];
     }
@@ -180,8 +178,7 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 - (void)setLocalizedRecoverySuggestion:(NSString*)recoverySuggestion;
 {
     if (recoverySuggestion) {
-		[_mutableUserInfo setObject:[NSString stringWithString:recoverySuggestion]
-                             forKey:NSLocalizedRecoverySuggestionErrorKey];
+		_mutableUserInfo[NSLocalizedRecoverySuggestionErrorKey] = [NSString stringWithString:recoverySuggestion];
     } else {
     	[_mutableUserInfo removeObjectForKey:NSLocalizedRecoverySuggestionErrorKey];
     }
@@ -190,8 +187,7 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 - (void)setLocalizedRecoveryOptions:(NSArray*)recoveryOptions;
 {
     if (recoveryOptions) {
-		[_mutableUserInfo setObject:[NSArray arrayWithArray:recoveryOptions]
-                             forKey:NSLocalizedRecoveryOptionsErrorKey];
+		_mutableUserInfo[NSLocalizedRecoveryOptionsErrorKey] = [NSArray arrayWithArray:recoveryOptions];
     } else {
     	[_mutableUserInfo removeObjectForKey:NSLocalizedRecoveryOptionsErrorKey];
     }
@@ -200,7 +196,7 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 - (void)setRecoveryAttempter:(id)recoveryAttempter;
 {
     if (recoveryAttempter) {
-		[_mutableUserInfo setObject:recoveryAttempter forKey:NSRecoveryAttempterErrorKey];
+		_mutableUserInfo[NSRecoveryAttempterErrorKey] = recoveryAttempter;
     } else {
     	[_mutableUserInfo removeObjectForKey:NSRecoveryAttempterErrorKey];
     }
@@ -209,7 +205,7 @@ localizedRecoverySuggestion:(NSString*)suggestionOrNil
 - (void)setUnderlyingError:(NSError*)error;
 {
 	if (error) {
-    	[_mutableUserInfo setObject:error forKey:NSUnderlyingErrorKey];
+    	_mutableUserInfo[NSUnderlyingErrorKey] = error;
     } else {
         [_mutableUserInfo removeObjectForKey:NSUnderlyingErrorKey];
     }

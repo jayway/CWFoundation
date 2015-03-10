@@ -66,16 +66,16 @@
 +(NSDate*)dateWithISODateString:(NSString*)isoDate;
 
 /*! @abstract Full ISO date, "2010-01-12". */
--(NSString*)ISODate;         
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *ISODate;         
 
 /*! @abstract Full ISO time, "13:52" */
--(NSString*)ISOTime;         
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *ISOTime;         
 
 /*! @abstract Compact ISO date, "100112". */
--(NSString*)compactISODate;  
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *compactISODate;  
 
 /*! @abstract Comapct ISO date, "1352". */
--(NSString*)compactISOTime;  
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *compactISOTime;  
 
 @end
 
@@ -92,21 +92,21 @@
 /*!
  * @abstract The date and time as a localized string in short format.
  */
--(NSString*)localizedShortString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *localizedShortString;
 
 /*!
  * @abstract The date as a localized string in short format.
  */
--(NSString*)localizedShortDateString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *localizedShortDateString;
 
 /*!
  * @abstract The time as a localized string in short format.
  */
--(NSString*)localizedShortTimeString;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *localizedShortTimeString;
 
 /*!
  * @abstract Query if date is relative to current date and time.
  */ 
--(BOOL)isRelativeDate;
+@property (NS_NONATOMIC_IOSONLY, getter=isRelativeDate, readonly) BOOL relativeDate;
 
 @end

@@ -33,6 +33,6 @@
 
 @interface NSData(CWBase64Encoding)
 
--(NSString*)base64String;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *base64String;
 
 @end

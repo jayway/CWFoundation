@@ -64,7 +64,7 @@
 
 -(CWTranslation*)subTranslationForSourceName:(NSString*)name type:(CWTranslationSourceType)type;
 
--(BOOL)isAtomic;
+@property (NS_NONATOMIC_IOSONLY, getter=isAtomic, readonly) BOOL atomic;
 
 @end
 
@@ -76,7 +76,7 @@
 
 // Must be called by subclasses.
 -(void)beginTranslation;
--(NSArray*)rootObjects;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *rootObjects;
 
 // Must be overridden by subclasses.
 -(void)startGroupingWithName:(NSString*)name attributes:(NSDictionary*)attributes;

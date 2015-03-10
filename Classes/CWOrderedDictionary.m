@@ -35,17 +35,17 @@
 
 #pragma mark --- All initializers need to  be overridden for a class cluster :(
 
--(id)init;
+-(instancetype)init;
 {
-    return [self initWithDictionary:[NSDictionary dictionary]];
+    return [self initWithDictionary:@{}];
 }
 
--(id)initWithDictionary:(NSDictionary*)dictionary;
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary;
 {
     return [self initWithDictionary:dictionary copyItems:NO];
 }
 
--(id)initWithDictionary:(NSDictionary*)dictionary copyItems:(BOOL)copyItems;
+-(instancetype)initWithDictionary:(NSDictionary*)dictionary copyItems:(BOOL)copyItems;
 {
     self = [super init];
     if (self) {
@@ -55,7 +55,7 @@
     return self;
 }
 
--(id)initWithObjects:(NSArray *)objects forKeys:(NSArray *)keys;
+-(instancetype)initWithObjects:(NSArray *)objects forKeys:(NSArray *)keys;
 {
     self = [super init];
     if (self) {
@@ -65,14 +65,14 @@
     return self;
 }
 
--(id)initWithObjects:(id*)objectBuf forKeys:(id*)keyBuf count:(NSUInteger)count;
+-(instancetype)initWithObjects:(id*)objectBuf forKeys:(id*)keyBuf count:(NSUInteger)count;
 {
     NSArray* objects = [NSArray arrayWithObjects:objectBuf count:count];
     NSArray* keys = [NSArray arrayWithObjects:keyBuf count:count];
     return [self initWithObjects:objects forKeys:keys];
 }
 
--(id)initWithObjectsAndKeys:(id)firstObject , ...;
+-(instancetype)initWithObjectsAndKeys:(id)firstObject , ...;
 {
     NSMutableArray* objects = [NSMutableArray array];
     NSMutableArray* keys = [NSMutableArray array];
@@ -93,7 +93,7 @@
     return [self initWithObjects:objects forKeys:keys];
 }
 
--(id)initWithCapacity:(NSUInteger)capacity;
+-(instancetype)initWithCapacity:(NSUInteger)capacity;
 {
     self = [super init];
     if (self) {
@@ -119,7 +119,7 @@
 
 -(id)objectForKey:(id)key;
 {
-    return [_dictionary objectForKey:key];
+    return _dictionary[key];
 }
 
 -(NSEnumerator*)keyEnumerator;
@@ -129,10 +129,10 @@
 
 -(void)setObject:(id)object forKey:(id)key;
 {
-    if (![_dictionary objectForKey:key]) {
+    if (!_dictionary[key]) {
         [_array addObject:key];
     }
-    [_dictionary setObject:object forKey:key];
+    _dictionary[key] = object;
 }
 
 -(void)removeObjectForKey:(id)key;
@@ -143,7 +143,7 @@
 
 #pragma mark --- Required for conformaing to NSObject, NSCoding, and NSCopying properly
 
--(id)initWithCoder:(NSCoder *)aDecoder;
+-(instancetype)initWithCoder:(NSCoder *)aDecoder;
 {
 	self = [super initWithCoder:aDecoder];
     if (self) {
@@ -213,7 +213,7 @@ static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
 		[description appendFormat:@"%@    %@ = %@;\n",
         	indentString,
          	CWDescriptionForObject(key, locale, level),
-         	CWDescriptionForObject([self objectForKey:key], locale, level)];
+         	CWDescriptionForObject(self[key], locale, level)];
 	}
 	[description appendFormat:@"%@}\n", indentString];
 	return description;
@@ -226,7 +226,7 @@ static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
 {
     NSUInteger oldIndex = [self indexForKey:key];
     if (oldIndex == NSNotFound) {
-        [_dictionary setObject:object forKey:key];
+        _dictionary[key] = object;
         [_array insertObject:key atIndex:index];
     } else {
         [NSException raise:NSInvalidArgumentException
@@ -236,7 +236,7 @@ static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
 
 -(void)removeObjectAtIndex:(NSUInteger)index;
 {
-    [self removeObjectForKey:[_array objectAtIndex:index]];
+    [self removeObjectForKey:_array[index]];
 }
 
 -(void)moveObjectForKey:(id)key toIndex:(NSUInteger)index;
@@ -257,12 +257,12 @@ static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
 
 -(id)keyAtIndex:(NSUInteger)index;
 {
-    return [_array objectAtIndex:index]; 
+    return _array[index]; 
 }
 
 -(id)objectAtIndex:(NSUInteger)index;
 {
-    return [_dictionary objectForKey:[_array objectAtIndex:index]];
+    return _dictionary[_array[index]];
 }
 
 -(NSUInteger)indexForKey:(id)key;
@@ -342,7 +342,7 @@ static NSString* CWDescriptionForObject(id object, id locale, NSUInteger indent)
 {
     NSMutableArray* values = [NSMutableArray arrayWithCapacity:[_array count]];
     for (id key in _array) {
-        [values addObject:[_dictionary objectForKey:key]];
+        [values addObject:_dictionary[key]];
     }
     return [NSArray arrayWithArray:values];
 }

@@ -85,12 +85,12 @@
 extern NSString* const CWNetWorkStatusDidChangeNotification;
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, CWNetworkStatus) {
 	CWNetworkStatusUnknown = -1,
     CWNetworkStatusNotAvailable = 0,
     CWNetworkStatusAvailableViaWWAN = 1,
     CWNetworkStatusAvailableViaWiFi = 2
-} CWNetworkStatus;
+} ;
 
 
 /*!
@@ -149,19 +149,19 @@ typedef enum {
  * @discussion Non blocking. Will always yield CWNetworkStatusUnknown if the 
  *             receiver is not currently monitoring.
  */
--(CWNetworkStatus)networkStatus;
+@property (NS_NONATOMIC_IOSONLY, readonly) CWNetworkStatus networkStatus;
 
 /*!
  * @abstract Query if any kind of network is available.
  * @discussion Non blocking. Will always yield NO if the receiver is not
  *             currently monitoring.
  */
--(BOOL)isAvailable;
+@property (NS_NONATOMIC_IOSONLY, getter=isAvailable, readonly) BOOL available;
 
 /*!
  * @abstract Query if the receiver is currently monitoring.
  */
--(BOOL)isMonitoringNetworkStatus;
+@property (NS_NONATOMIC_IOSONLY, getter=isMonitoringNetworkStatus, readonly) BOOL monitoringNetworkStatus;
 
 /*!
  * @abstract Start monitoring network status using the receiver.
@@ -170,7 +170,7 @@ typedef enum {
  *             and will them continue to post this notification for any changes to
  *             the network status.
  */
--(BOOL)startMonitoringNetworkStatus;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL startMonitoringNetworkStatus;
 
 /*!
  * @abstract Stop monitoring network status using the receiver.

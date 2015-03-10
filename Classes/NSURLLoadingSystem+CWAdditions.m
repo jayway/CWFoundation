@@ -76,7 +76,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
 
 @implementation NSURLRequest (CWURLLoadingSystemAdditions)
 
-+(id)requestWithURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
++(instancetype)requestWithURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
 {
 	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
     [fields enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -90,7 +90,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
 
 @implementation NSData (CWURLLoadingSystemAdditions)
 
-+(id)dataWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
++(instancetype)dataWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
 {
 	return [self dataWithContentsOfURL:url 
                       HTTPHeaderFields:fields 
@@ -98,7 +98,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
                                  error:NULL];
 }
 
-+(id)dataWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields options:(NSDataReadingOptions)mask error:(NSError **)error;
++(instancetype)dataWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields options:(NSDataReadingOptions)mask error:(NSError **)error;
 {
 	return [[[self alloc] initWithContentsOfURL:url 
                                HTTPHeaderFields:fields 
@@ -106,7 +106,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
                                           error:error] autorelease];
 }
 
--(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
+-(instancetype)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields;
 {
 	return [self initWithContentsOfURL:url 
                       HTTPHeaderFields:fields 
@@ -114,7 +114,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
                                  error:NULL];
 }
 
--(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields options:(NSDataReadingOptions)mask error:(NSError **)error;
+-(instancetype)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields options:(NSDataReadingOptions)mask error:(NSError **)error;
 {
     NSData* data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:url
                                                                        HTTPHeaderFields:fields]
@@ -134,7 +134,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
 
 @implementation NSString (CWURLLoadingSystemAdditions)
 
-+(id)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
++(instancetype)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
 {
 	return [[[self alloc] initWithContentsOfURL:url 
                                HTTPHeaderFields:fields 
@@ -142,7 +142,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
                                           error:error] autorelease];
 }
 
-+(id)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields usedEncoding:(NSStringEncoding*)enc error:(NSError **)error;
++(instancetype)stringWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields usedEncoding:(NSStringEncoding*)enc error:(NSError **)error;
 {
 	return [[[self alloc] initWithContentsOfURL:url
                                HTTPHeaderFields:fields
@@ -150,7 +150,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
                                           error:error] autorelease];
 }
 
--(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
+-(instancetype)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields encoding:(NSStringEncoding)enc error:(NSError **)error;
 {
     NSData* data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:url
                                                                        HTTPHeaderFields:fields]
@@ -166,7 +166,7 @@ static NSDictionary* defaultHTTPHeaderFields = nil;
     return self;
 }
 
--(id)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields usedEncoding:(NSStringEncoding*)enc error:(NSError **)error;
+-(instancetype)initWithContentsOfURL:(NSURL*)url HTTPHeaderFields:(NSDictionary*)fields usedEncoding:(NSStringEncoding*)enc error:(NSError **)error;
 {
     NSURLResponse* response = nil;
     NSData* data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:url

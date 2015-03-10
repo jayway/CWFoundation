@@ -172,7 +172,7 @@
 {
 	[self performSelector:@selector(invokeAfterDelayHelperWithDelay:)
                  onThread:thread
-               withObject:[NSNumber numberWithDouble:delay]
+               withObject:@(delay)
             waitUntilDone:NO];		
 }
 
